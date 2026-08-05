@@ -21,8 +21,10 @@ SAFE should include representatives from:
 * Critical-infrastructure operators
 * Civil-society and affected-user representatives
 * Government and standards bodies as non-controlling observers
+* Multilateral and regional public-interest institutions, in a non-controlling capacity, with standing to contribute to governance design, incident taxonomies and schemas, geographically inclusive pilots, capacity-building and dissemination of de-identified lessons
 
 SAFE should operate independently so that no vendor or industry segment controls its findings. Its processes apply equally to open and closed AI systems. Open systems are not automatically safe, and closed systems are not safe by declaration. Trust is not a control; shared evidence and verifiable improvement are how trust is earned.
+Standing for public-interest institutions does not entail control, veto power or access to identifiable reports; it means an established right to participate in relevant working groups, propose agenda items, contribute evidence and help shape how SAFE's learning reaches the wider international community.
 
 # Guiding Principles
 
@@ -31,6 +33,7 @@ SAFE should operate independently so that no vendor or industry segment controls
 * **Risk-based response.** Reporting, disclosure and escalation should reflect actual risk.
 * **Member sovereignty.** SAFE establishes minimum interoperability and assurance practices without superseding members’ internal security policies or legal obligations.
 * **Learning is separate from enforcement.** Confidential review should encourage candid reporting, while regulators and affected parties retain their legal rights.
+* **Geographic inclusion.** SAFE pilots and early implementation activities should include organizations from geographically and institutionally diverse settings, including regions currently underrepresented in AI security and assurance initiatives.
 
 # Reporting Compact
 
@@ -94,6 +97,7 @@ The affected organization may correct factual errors but should not have veto po
 1. Confidential rapid alert: Immediate indicators, containment steps and affected patterns for trusted members.
 2. Member operating advisory: De-identified analysis, implicated controls, tests and recommended actions.
 3. Public safety report: Root causes, systemic lessons, recommendations and adoption metrics after sensitive details are removed.
+4.De-identified systemic lessons, defensive recommendations, verification methods, tests, machine-readable policies, detection rules, reference configurations and catalog entries should be public by default. Publication may be restricted only where disclosure of specific information presents a concrete, foreseeable and material risk to affected individuals, vulnerable systems, reporter confidentiality, legitimate legal rights or an active investigation. Reputational harm, commercial disadvantage, embarrassment or the possibility of regulatory scrutiny should not, by themselves, justify withholding. Restrictions should use the least restrictive available measure, including redaction, aggregation or delayed publication rather than complete suppression. The decision and its evidentiary basis should be documented, subject to independent review, time-limited and reconsidered at defined intervals. Where possible, SAFE should publish notice that material has been withheld, the general category of risk involved and the date of the next review.
 
 SAFE should adopt the strongest features of confidential safety-reporting systems: voluntary and prompt reporting, non-punitive treatment of honest mistakes, de-identification where appropriate and exclusion of intentional or criminal conduct from protection.
 
