@@ -97,7 +97,28 @@ The affected organization may correct factual errors but should not have veto po
 1. Confidential rapid alert: Immediate indicators, containment steps and affected patterns for trusted members.
 2. Member operating advisory: De-identified analysis, implicated controls, tests and recommended actions.
 3. Public safety report: Root causes, systemic lessons, recommendations and adoption metrics after sensitive details are removed.
-4. De-identified systemic lessons, defensive recommendations, verification methods, tests, machine-readable policies, detection rules, reference configurations and catalog entries should be public by default. Publication may be restricted only where disclosure of specific information presents a concrete, foreseeable and material risk to affected individuals, vulnerable systems, reporter confidentiality, legitimate legal rights or an active investigation. Reputational harm, commercial disadvantage, embarrassment or the possibility of regulatory scrutiny should not, by themselves, justify withholding. Restrictions should use the least restrictive available measure, including redaction, aggregation or delayed publication rather than complete suppression. The decision and its evidentiary basis should be documented, subject to independent review, time-limited and reconsidered at defined intervals. Where possible, SAFE should publish notice that material has been withheld, the general category of risk involved and the date of the next review.
+4. De-identified systemic lessons, defensive recommendations, verification methods, tests, machine-readable policies, detection rules, reference configurations and catalog entries should be public by default. Publication may be restricted only where disclosure of specific information presents a concrete, foreseeable and material risk to affected individuals, vulnerable systems, reporter confidentiality, legitimate legal rights or an active investigation. Reputational harm, commercial disadvantage, embarrassment or the possibility of regulatory scrutiny should not, by themselves, justify withholding. Restrictions should use the least restrictive available measure, including redaction, aggregation or delayed publication rather than complete suppression. Each restriction decision should be represented by a small machine-readable disclosure restriction record containing, at minimum:
+
+    * `decision_id` and the relevant finding or incident reference
+    * the material or fields being restricted
+    * the risk category and evidence references supporting the risk claim
+    * the least-restrictive measure selected (`redaction | aggregation | delay | suppression`)
+    * the decision-maker and independent reviewer
+    * `decided_at`, `review_at` and/or `expires_at`
+    * current status and reference to any superseded decision
+    * a transition history recording each change of status, with reason, timestamp and relevant evidence references
+
+    An active restriction should satisfy, at minimum:
+
+    `restriction_active -> evidence_basis_present && independent_review_recorded && review_or_expiry_time_present`
+
+    Restriction lifecycles should use explicit states such as:
+
+    `restricted -> partially_published -> published`
+
+    with the reason, timestamp and relevant evidence references recorded for each transition.
+
+    Because the complete restriction record may itself contain sensitive evidence, SAFE should maintain a public-facing subset containing, at minimum, the decision identifier, affected material category, general risk category, restriction type, current status, decision date, and review or expiry date. If publication of a specific field would itself create the documented risk, that field may be withheld. Withholding the public notice itself should require documented justification.
 
 SAFE should adopt the strongest features of confidential safety-reporting systems: voluntary and prompt reporting, non-punitive treatment of honest mistakes, de-identification where appropriate and exclusion of intentional or criminal conduct from protection.
 
