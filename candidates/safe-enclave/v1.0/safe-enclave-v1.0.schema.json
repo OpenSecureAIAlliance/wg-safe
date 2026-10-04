@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensecureai.org/schemas/candidates/safe-enclave/v1.0/schema.json",
+  "title": "SAFE Confidential Enclave Ingestion & Threat Bulletin Schema",
+  "description": "Standard schema for hardware-enclave-attested confidential incident submissions, multi-provider distillation clusters, and SCITT threat bulletins.",
+  "type": "object",
+  "definitions": {
+    "SafeIncidentCategory": {
+      "type": "string",
+      "enum": [
+        "industrial-distillation",
+        "model-weight-exfiltration",
+        "prompt-injection-pipeline",
+        "agentic-jailbreak",
+        "hypervisor-sidechannel",
+        "data-poisoning",
+        "supply-chain-backdoor",
+        "unauthorized-capability-harvesting"
+      ]
+    },
+    "MitreAtlasTechnique": {
+      "type": "string",
+      "enum": [
+        "AML.T0024",
+        "AML.T0051",
+        "AML.T0043",
+        "AML.T0040",
+        "AML.T0015",
+        "AML.T0031",
+        "AML.T0048"
+      ]
+    },
+    "ConfidentialSafeSubmission": {
+      "type": "object",
+      "required": [
+        "submissionId",
+        "encryptedPayloadHex",
+        "ephemeralPublicKeyHex",
+        "ivHex",
+        "authTagHex",
+        "providerFingerprintSha256",
+        "submittedAt"
+      ],
+      "properties": {
+        "submissionId": { "type": "string", "pattern": "^safe_sub_[a-f0-9]+$" },
+        "encryptedPayloadHex": { "type": "string", "pattern": "^[a-f0-9]+$" },
+        "ephemeralPublicKeyHex": { "type": "string", "pattern": "^[a-f0-9]{130}$" },
+        "ivHex": { "type": "string", "pattern": "^[a-f0-9]{24}$" },
+        "authTagHex": { "type": "string", "pattern": "^[a-f0-9]{32}$" },
+        "providerFingerprintSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "submittedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "IngestReceipt": {
+      "type": "object",
+      "required": [
+        "status",
+        "submissionId",
+        "providerFingerprintSha256",
+        "receiptProfile",
+        "enclaveHardwareAttestation",
+        "anchoredEvidenceBasis",
+        "receivedAt"
+      ],
+      "properties": {
+        "status": { "type": "string", "const": "ACCEPTED_ENCRYPTED_IN_ENCLAVE" },
+        "submissionId": { "type": "string" },
+        "providerFingerprintSha256": { "type": "string" },
+        "receiptProfile": { "type": "string", "enum": ["scitt/vaara/v1", "safe-custody/v1"] },
+        "enclaveHardwareAttestation": {
+          "type": "object",
+          "required": ["siliconArchitecture", "measurement", "rtmr3"],
+          "properties": {
+            "siliconArchitecture": { "type": "string", "enum": ["intel-tdx", "amd-sev-snp", "nvidia-cc"] },
+            "measurement": { "type": "string" },
+            "rtmr3": { "type": "string", "pattern": "^rtmr3_[a-f0-9]{64}$" }
+          }
+        },
+        "anchoredEvidenceBasis": {
+          "type": "object",
+          "required": ["immutableDigest", "storageLocator"],
+          "properties": {
+            "immutableDigest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+            "storageLocator": { "type": "string" }
+          }
+        },
+        "receivedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "SafeThreatBulletin": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "bulletinId",
+        "title",
+        "severity",
+        "category",
+        "mitreAtlasTechnique",
+        "summary",
+        "campaignAnalysis",
+        "recommendedDefenses",
+        "transparency",
+        "publishedAt"
+      ],
+      "properties": {
+        "schemaVersion": { "type": "string", "const": "safe-bulletin/v1" },
+        "bulletinId": { "type": "string" },
+        "title": { "type": "string" },
+        "severity": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM"] },
+        "category": { "$ref": "#/definitions/SafeIncidentCategory" },
+        "mitreAtlasTechnique": { "$ref": "#/definitions/MitreAtlasTechnique" },
+        "summary": { "type": "string" },
+        "campaignAnalysis": { "type": "object" },
+        "recommendedDefenses": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "transparency": {
+          "type": "object",
+          "required": ["scittDigest", "hardwareSiliconAttestation", "zeroKnowledgeGuarantee"],
+          "properties": {
+            "scittDigest": { "type": "string", "pattern": "^scitt:safe:sha256:[a-f0-9]{64}$" },
+            "hardwareSiliconAttestation": {
+              "type": "object",
+              "required": ["enclaveArchitecture", "rtmr3", "reportDataSha256", "attestationStatus"],
+              "properties": {
+                "enclaveArchitecture": { "type": "string", "enum": ["intel-tdx", "amd-sev-snp", "nvidia-cc"] },
+                "rtmr3": { "type": "string", "pattern": "^rtmr3_[a-f0-9]{64}$" },
+                "reportDataSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+                "attestationStatus": { "type": "string", "const": "VERIFIED_TAMPER_PROOF" }
+              }
+            },
+            "zeroKnowledgeGuarantee": { "type": "string" }
+          }
+        },
+        "publishedAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}
