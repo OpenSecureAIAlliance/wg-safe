@@ -6,11 +6,13 @@ A proposed independent incident-learning and assurance initiative of the Open Se
 
 Cyberattacks will happen. AI systems will make mistakes. Safeguards and operating assumptions will sometimes fail. A responsible AI ecosystem is measured by how quickly it contains harm, establishes the facts, informs those at risk and turns each incident into stronger protection for the community.
 
+<!-- Consider adding a formal incident taxonomy and severity model here or in a linked appendix so participants classify events consistently across safety, security, privacy, and operational harms.-->
+
 # Mission
 
 SAFE confidentially collects and analyzes AI incidents and near misses, promptly informs affected parties and turns recurring failures into shared, evidence-based controls that reduce systemic risk.
 
-# Scope and Membership
+# Scope and Membership.  
 
 SAFE should include representatives from:
 
@@ -24,6 +26,8 @@ SAFE should include representatives from:
 
 SAFE should operate independently so that no vendor or industry segment controls its findings. Its processes apply equally to open and closed AI systems. Open systems are not automatically safe, and closed systems are not safe by declaration. Trust is not a control; shared evidence and verifiable improvement are how trust is earned.
 
+<!-- Strengthen independence language by requiring conflict-of-interest disclosures, recusal rules, independent chairing or review leadership, and protections against any single vendor or funding source shaping findings, publication timing, or remediation conclusions.-->
+
 # Guiding Principles
 
 * **Openness with accountability.** Transparent disclosure processes strengthen collective defense, subject to Coordinated Vulnerability Disclosure (CVD) best practices.
@@ -31,6 +35,8 @@ SAFE should operate independently so that no vendor or industry segment controls
 * **Risk-based response.** Reporting, disclosure and escalation should reflect actual risk.
 * **Member sovereignty.** SAFE establishes minimum interoperability and assurance practices without superseding members’ internal security policies or legal obligations.
 * **Learning is separate from enforcement.** Confidential review should encourage candid reporting, while regulators and affected parties retain their legal rights.
+
+<!-- Add explicit confidentiality, data-handling, and retention rules for submissions, including who may access raw evidence, de-identification expectations, cross-border transfer constraints, legal hold handling, and minimum retention/destruction periods. -->
 
 # Reporting Compact
 
@@ -42,6 +48,8 @@ As a condition of membership, members agree to report an incident when they beco
 * Continues to probe, access, exploit, or modify a production target after the operator knows or reasonably suspects that the activity is unauthorized or outside the approved scope.
 
 Intent does not determine whether an event is reportable. Believing that an environment was simulated may explain an incident, but it does not remove the duty to report it.  Minimizing transparency of events slows learning.
+
+<!-- Reasonably suspect” should be operationalized with clear reportability thresholds, examples, and decision factors so members know when weak signals, near misses, or inconclusive telemetry still trigger reporting. -->
 
 # Notification Timelines
 
@@ -71,6 +79,8 @@ Members must preserve and provide affected organizations with the evidence neede
 * Reproduction testing and remediation evidence
 
 Members must also provide a preliminary control-failure analysis within 30 days and report near misses, not only events that produce confirmed harm.
+
+<!-- Add explicit forensic-integrity and chain-of-custody expectations, including time synchronization, immutable log preservation where feasible, provenance for exported artifacts, hashing/signing of key evidence, and documented handling of analyst access to originals. -->
 
 # Review Framework
 
