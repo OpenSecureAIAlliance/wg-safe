@@ -69,9 +69,9 @@ Members must preserve and provide affected organizations with the evidence neede
 * Detection, containment and recovery events
 * A complete incident timeline
 * Reproduction testing and remediation evidence
-* For later replay or reproduction, the incident-time inputs and relevant versioned context used by the test, including any substitutions
+* For later replay or reproduction, the incident-time inputs, relevant versioned context, runtime or hardware context where material, and any known substitutions
 
-A later reproduction is not the same as reconstructing the original incident. If a replay uses a newer model or tool version, a changed policy or configuration, a live dependency, or a different time-dependent input, that difference should be recorded. The result may still be useful, but it should not be presented as an exact reproduction of the original run.
+A later reproduction is not the same as reconstructing the original incident. If a replay uses a newer model or tool version, the same provider model name now resolves to a different underlying model, runs on a different runtime or hardware configuration, uses a changed policy or configuration, relies on a live dependency, or receives a different time-dependent input, that difference should be recorded. The result may still be useful, but it should not be presented as an exact reproduction of the original run.
 
 Members must also provide a preliminary control-failure analysis within 30 days and report near misses, not only events that produce confirmed harm.
 
