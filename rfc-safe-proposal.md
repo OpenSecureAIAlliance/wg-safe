@@ -62,6 +62,7 @@ These timelines do not replace any supplier obligation to notify affected partie
 Members must preserve and provide affected organizations with the evidence needed for a complete forensic response, including:
 
 * Prompts, traces, tool calls, logs, configurations, model and safeguard versions and third-party dependencies
+* Observed artifact identity: for each model, safeguard, tool and dependency, the identity requested, the identity measured at load or execution, and the comparison outcome. The comparison must be available where the finding is read, not only where it was produced. Four states are distinguished: verified, meaning the observed identity matches the declared one; partial, meaning something declared is missing or mismatched, with the specifics carried alongside; unverified, meaning nothing declared an identity, so no comparison is possible; and unmeasured, meaning no load has been measured in this context. A missing or mismatched identity makes a result unusable rather than passing or failing, and the set of unusable results must be enumerable, with the enumeration failing closed when it changes.
 * Agent and workload identities
 * Permissions and credentials available during the run
 * Human approval and intervention events
