@@ -1,0 +1,24 @@
+{
+  "fixture_id": "safe-authority-revalidation",
+  "version": "0.1.0-candidate.1",
+  "kind": "synthetic_candidate_artifact_manifest",
+  "hash_algorithm": "sha256",
+  "canonicalization": "none",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 15970,
+      "sha256": "85cba6b1c2e2fee976e893327a62864a55d281191e759f75901b08170f8f1520"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 7961,
+      "sha256": "4ad2364e460df288610c509ef8beed747245b8bdac0eb0b4792e633a2461dec3"
+    },
+    {
+      "path": "expected.json",
+      "bytes": 3359,
+      "sha256": "68e83ed022c96b21afdaa1ebee8be4649f34793486a134a07885cf20ca59b1bb"
+    }
+  ]
+}

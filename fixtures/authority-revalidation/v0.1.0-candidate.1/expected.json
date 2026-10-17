@@ -1,0 +1,64 @@
+{
+  "fixture_id": "safe-authority-revalidation",
+  "version": "0.1.0-candidate.1",
+  "kind": "authored_expected_outcomes_not_execution_results",
+  "attempts": [
+    {
+      "run_id": "V1", "attempt_id": "V1-A1", "release_tick": 20,
+      "selected_grant": "V1/G0", "evaluated_baseline": "V1/B0",
+      "observed_release_baseline": "V1/B1", "oracle_release_baseline": "V1/B1",
+      "materiality_policy": "M1@1", "missing_evidence": [],
+      "materiality": "non_material", "applicability": "applicable", "release": "permit", "writes": 1
+    },
+    {
+      "run_id": "V2", "attempt_id": "V2-A1", "release_tick": 20,
+      "selected_grant": "V2/G0", "evaluated_baseline": "V2/B0",
+      "observed_release_baseline": "V2/B1", "oracle_release_baseline": "V2/B1",
+      "materiality_policy": "M1@1", "missing_evidence": [],
+      "materiality": "material", "applicability": "non_applicable", "release": "withhold", "writes": 0
+    },
+    {
+      "run_id": "V2", "attempt_id": "V2-A2", "release_tick": 40,
+      "selected_grant": "V2/G1", "evaluated_baseline": "V2/B1",
+      "observed_release_baseline": "V2/B1", "oracle_release_baseline": "V2/B1",
+      "materiality_policy": "M1@1", "missing_evidence": [],
+      "materiality": "unchanged", "applicability": "applicable", "release": "permit", "writes": 1
+    },
+    {
+      "run_id": "V3", "attempt_id": "V3-A1", "release_tick": 40,
+      "selected_grant": "V3/G1", "evaluated_baseline": "V3/B1",
+      "observed_release_baseline": "V3/B2", "oracle_release_baseline": "V3/B2",
+      "materiality_policy": "M1@1", "missing_evidence": [],
+      "materiality": "material", "applicability": "non_applicable", "release": "withhold", "writes": 0
+    },
+    {
+      "run_id": "V3", "attempt_id": "V3-A2", "release_tick": 60,
+      "selected_grant": "V3/G2", "evaluated_baseline": "V3/B2",
+      "observed_release_baseline": "V3/B2", "oracle_release_baseline": "V3/B2",
+      "materiality_policy": "M1@1", "missing_evidence": [],
+      "materiality": "unchanged", "applicability": "applicable", "release": "permit", "writes": 1
+    },
+    {
+      "run_id": "U1", "attempt_id": "U1-A1", "release_tick": 20,
+      "selected_grant": "U1/G0", "evaluated_baseline": "U1/B0",
+      "observed_release_baseline": null, "oracle_release_baseline": "U1/B1",
+      "materiality_policy": "M1@1", "missing_evidence": ["release_baseline"],
+      "materiality": "unresolved", "applicability": "unresolved", "release": "withhold", "writes": 0
+    },
+    {
+      "run_id": "U2", "attempt_id": "U2-A1", "release_tick": 20,
+      "selected_grant": "U2/G0", "evaluated_baseline": "U2/B0",
+      "observed_release_baseline": "U2/B1", "oracle_release_baseline": "U2/B1",
+      "materiality_policy": null, "missing_evidence": ["materiality_policy"],
+      "materiality": "unresolved", "applicability": "unresolved", "release": "withhold", "writes": 0
+    },
+    {
+      "run_id": "U3", "attempt_id": "U3-A1", "release_tick": 60,
+      "selected_grant": "U3/G2", "evaluated_baseline": null,
+      "observed_release_baseline": "U3/B2", "oracle_release_baseline": "U3/B2",
+      "materiality_policy": "M1@1", "missing_evidence": ["grant_baseline_binding"],
+      "materiality": "unresolved", "applicability": "unresolved", "release": "withhold", "writes": 0
+    }
+  ],
+  "run_sink_counts": {"V1": 1, "V2": 1, "V3": 1, "U1": 0, "U2": 0, "U3": 0}
+}
