@@ -195,6 +195,8 @@ Variants worth running beside the five:
 * N5, with an acknowledgment whose `manifest_digest` names a different manifest: it counts as no acknowledgment.
 * Tier check: rerun N1 with `declared_consequence` set to `high`. No result may change.
 
+Independent reproduction: CSOAI Ltd wrote a checker from this template's text alone and reproduced the example, the five negative controls and the five listed variants at template commit `cd351ca`; its scripts are at https://gist.github.com/CSOAI-ORG/47d4f8aade9c2f3b9d3c8fcdc9173068/fb56ccb65e464502da55633c9edbc6191e427367. This records a reproduction of the published template and controls, not adoption, endorsement or conformance certification.
+
 # Synthetic Example
 
 A one-person operator runs one agent whose outbound HTTPS calls pass through a local policy gate. On 2026-10-03 the agent closed ticket 4411 in the operator's project P-17 on a third-party ticketing service, `api.vendor.example`. The service's owner asked what authorized the change. The operator shares a bundle derived from its private original, with the ticket title removed as third-party content, and the owner's intake acknowledges it. All names use the reserved `.example` domain.
