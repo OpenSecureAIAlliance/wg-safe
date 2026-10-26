@@ -104,7 +104,13 @@ Every incident review should produce shared defensive recommendations that AI pr
 * The failure and affected systems
 * The required defensive outcome
 * The minimum control and acceptable alternatives
-* A reproducible verification method
+* A reproducible verification method. Reproducibility is necessary and not sufficient: a method can be deterministic, repeatable, and still silent about the control it claims to exercise. Each method should also state:
+  * **Its own failure mode.** At least one way the method can return a passing or empty result without raising an error, and what the record shows when it does. A check that fails open and reports a plausible number is worse than no check, because a number now exists and someone will act on it.
+  * **Its noise floor, and the population that floor was measured over.** A floor obtained by repeating an identical input measures determinism rather than discrimination. Where the reported figure is a ratio, the method should state whether the party being measured can change the denominator.
+  * **The path through which the evidence was produced.** Where that path differs from the one production traffic takes, the divergence should be recorded as a limit on the claim rather than left out of the report.
+  * **How much of the corpus exercised the control under test.** Zero is a permitted value and a required disclosure, because "the control behaved as specified" and "no input ever reached the control" are indistinguishable from outside.
+  * **Whether the identity of what it depends on was measured or asserted.** Where a result depends on a versioned artifact, the method states whether that artifact's identity was measured or asserted. An asserted identity travels with every finding derived from it. An absent identity states which side it is absent on: not provided by the measured party, or provided, durably acknowledged by the method, and not retained. Where a result is produced by a model, the model is a versioned artifact. A model name, whether sent in the request or returned in the response, is an asserted identity. A method that claims a fixed scorer states how a change of scorer would be detected, and how soon.
+  * **Whether each property it states about its own results is enforced or observed.** An enforced property names the implementation boundary that rejects the alternative and a reproducible counterexample test. An observed property names the corpus identity, method version and observation window over which it held, and must not be stated as an invariant.
 * The evidence to retain, responsible owner and implementation deadline
 * Adoption, effectiveness and review metrics
 
