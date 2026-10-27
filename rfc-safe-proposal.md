@@ -66,9 +66,12 @@ Members must preserve and provide affected organizations with the evidence neede
 * Permissions and credentials available during the run
 * Human approval and intervention events
 * Files and external artifacts created or modified
+* Chain-of-custody receipts for each evidence item, recording origin, collection, transfer, transformation, durable acceptance and content digests across trust boundaries
 * Detection, containment and recovery events
 * A complete incident timeline
 * Reproduction testing and remediation evidence
+
+The companion [Chain-of-Custody Receipt Profile](./rfc-evidence-custody-receipt-profile.md) describes a format-neutral minimum record and conformance vectors for transferred and transformed evidence.
 
 Members must also provide a preliminary control-failure analysis within 30 days and report near misses, not only events that produce confirmed harm.
 
