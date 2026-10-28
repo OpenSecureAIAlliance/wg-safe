@@ -64,11 +64,16 @@ Members must preserve and provide affected organizations with the evidence neede
 * Prompts, traces, tool calls, logs, configurations, model and safeguard versions and third-party dependencies
 * Agent and workload identities
 * Permissions and credentials available during the run
-* Human approval and intervention events
+* Human approval and intervention events, including structured approved scope and corresponding attempted or executed actions, linked to specific action attempts and stable resource identifiers
 * Files and external artifacts created or modified
 * Detection, containment and recovery events
 * A complete incident timeline
 * Reproduction testing and remediation evidence
+
+Where authorization is material to a finding, preserved evidence must support distinguishing no valid authority at execution, valid authority with execution within scope, valid authority with execution outside scope, and insufficient evidence.
+Records must identify the declared authoritative sources and results of execution-time expiry or revocation checks actually performed, and whether the relevant decision evaluation was consulted before execution.
+Any recorded scope determination must identify a versioned comparison method and preserve the complete normalized inputs and supporting evidence needed for independent recomputation.
+Access-controlled references may be used for those inputs, evidence and methods without disclosing reusable credentials. Missing or inaccessible material must be identified as a limitation on the affected determination, not treated as proof of valid authority, scope conformance or a scope violation; independently supported findings remain separately assessable.
 
 Members must also provide a preliminary control-failure analysis within 30 days and report near misses, not only events that produce confirmed harm.
 
