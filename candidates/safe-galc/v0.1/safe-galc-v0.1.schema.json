@@ -1,0 +1,663 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://valueintelligence.io/spec/safe-galc/v0.1/schema.json",
+  "title": "SAFE Governed-Action Lifecycle Correlation Profile v0.1",
+  "description": "Candidate, non-adopted JSON representation for format-neutral governed-action lifecycle correlation.",
+  "type": "object",
+  "required": [
+    "profile",
+    "profile_version",
+    "lifecycle_id",
+    "transition_id",
+    "created_at",
+    "producer",
+    "records",
+    "links",
+    "evaluation_contract",
+    "evaluations",
+    "overall_result",
+    "limitations"
+  ],
+  "properties": {
+    "profile": {"const": "safe-galc"},
+    "profile_version": {"const": "0.1"},
+    "lifecycle_id": {"$ref": "#/$defs/identifier"},
+    "transition_id": {"$ref": "#/$defs/identifier"},
+    "created_at": {"$ref": "#/$defs/timestamp"},
+    "producer": {"$ref": "#/$defs/principal"},
+    "records": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/record"}
+    },
+    "links": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/link"}
+    },
+    "evaluation_contract": {"$ref": "#/$defs/evaluationContract"},
+    "evaluations": {
+      "description": "Verifier-produced output. Scenario inputs MUST NOT supply or inherit this field as if it were a result computed for that scenario.",
+      "$ref": "#/$defs/evaluationSet"
+    },
+    "overall_result": {
+      "description": "Verifier-produced aggregate output under evaluation_contract. Scenario inputs MUST NOT supply or inherit this field as if it were computed for that scenario.",
+      "$ref": "#/$defs/overallResult"
+    },
+    "limitations": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 512
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*:[A-Za-z0-9_-]+$"
+    },
+    "principal": {
+      "type": "object",
+      "required": ["id", "trust_domain"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "trust_domain": {"$ref": "#/$defs/identifier"},
+        "role": {"type": "string", "minLength": 1},
+        "identity_binding_ref": {"$ref": "#/$defs/identifier"}
+      },
+      "additionalProperties": false
+    },
+    "recordRef": {
+      "type": "object",
+      "required": ["record_id", "digest"],
+      "properties": {
+        "record_id": {"$ref": "#/$defs/identifier"},
+        "digest": {"$ref": "#/$defs/digest"}
+      },
+      "additionalProperties": false
+    },
+    "stateRef": {
+      "type": "object",
+      "required": ["id", "digest"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "digest": {"$ref": "#/$defs/digest"},
+        "schema_id": {"$ref": "#/$defs/identifier"},
+        "predicate": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "required": ["id", "trust_domain"],
+      "properties": {
+        "id": {"$ref": "#/$defs/identifier"},
+        "trust_domain": {"$ref": "#/$defs/identifier"},
+        "resource_type": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["status", "method"],
+      "properties": {
+        "status": {"enum": ["pass", "fail", "insufficient_evidence", "not_applicable"]},
+        "method": {"type": "string", "minLength": 1},
+        "signature_ref": {"$ref": "#/$defs/identifier"},
+        "key_ref": {"$ref": "#/$defs/identifier"}
+      },
+      "additionalProperties": false
+    },
+    "anchorStatus": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "anchored",
+            "unanchored",
+            "unavailable"
+          ]
+        },
+        "reference": {
+          "$ref": "#/$defs/identifier",
+          "description": "Locator for the anchoring result evaluated under #18 or its successor."
+        },
+        "result_ref": {
+          "$ref": "#/$defs/recordRef"
+        }
+      },
+      "additionalProperties": false,
+      "description": "A supplied anchoring claim, not a GALC verifier result. An anchored claim requires a locator and an immutable result identity/digest. The referenced result must satisfy section 8.2.2; JSON Schema does not resolve or verify it.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "anchored"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "reference",
+              "result_ref"
+            ]
+          }
+        }
+      ]
+    },
+    "custodyProjection": {
+      "type": "object",
+      "required": ["status", "verifier", "method", "method_version", "evidence_basis"],
+      "properties": {
+        "status": {
+          "enum": [
+            "never_provided",
+            "offered_not_accepted",
+            "accepted_available",
+            "accepted_unavailable",
+            "insufficient_evidence"
+          ]
+        },
+        "result_ref": {"$ref": "#/$defs/recordRef"},
+        "verifier": {"$ref": "#/$defs/principal"},
+        "method": {"type": "string", "minLength": 1},
+        "method_version": {"type": "string", "minLength": 1},
+        "evidence_basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/recordRef"}
+        },
+        "limitations": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {"enum": ["accepted_available", "accepted_unavailable"]}
+            },
+            "required": ["status"]
+          },
+          "then": {"required": ["result_ref"]}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "record": {
+      "type": "object",
+      "required": [
+        "record_id",
+        "record_type",
+        "schema_id",
+        "canonicalization_id",
+        "digest_algorithm",
+        "digest",
+        "producer",
+        "issued_at",
+        "availability",
+        "integrity",
+        "anchor",
+        "custody",
+        "data"
+      ],
+      "properties": {
+        "record_id": {"$ref": "#/$defs/identifier"},
+        "record_type": {
+          "enum": [
+            "proposal",
+            "governance_determination",
+            "enforcement_event",
+            "execution_result",
+            "observation",
+            "reconciliation_result"
+          ]
+        },
+        "schema_id": {"$ref": "#/$defs/identifier"},
+        "canonicalization_id": {"type": "string", "minLength": 1},
+        "digest_algorithm": {"type": "string", "minLength": 1},
+        "digest": {"$ref": "#/$defs/digest"},
+        "producer": {"$ref": "#/$defs/principal"},
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "availability": {"enum": ["available", "unavailable", "unknown"]},
+        "integrity": {"$ref": "#/$defs/integrity"},
+        "anchor": {"$ref": "#/$defs/anchorStatus"},
+        "custody": {"$ref": "#/$defs/custodyProjection"},
+        "supersedes": {"$ref": "#/$defs/recordRef"},
+        "data": {"type": "object"},
+        "extensions": {"type": "object", "additionalProperties": true}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"record_type": {"const": "proposal"}}},
+          "then": {"properties": {"data": {"$ref": "#/$defs/proposalData"}}}
+        },
+        {
+          "if": {"properties": {"record_type": {"const": "governance_determination"}}},
+          "then": {"properties": {"data": {"$ref": "#/$defs/determinationData"}}}
+        },
+        {
+          "if": {"properties": {"record_type": {"const": "enforcement_event"}}},
+          "then": {"properties": {"data": {"$ref": "#/$defs/enforcementData"}}}
+        },
+        {
+          "if": {"properties": {"record_type": {"const": "execution_result"}}},
+          "then": {"properties": {"data": {"$ref": "#/$defs/executionData"}}}
+        },
+        {
+          "if": {"properties": {"record_type": {"const": "observation"}}},
+          "then": {"properties": {"data": {"$ref": "#/$defs/observationData"}}}
+        },
+        {
+          "if": {"properties": {"record_type": {"const": "reconciliation_result"}}},
+          "then": {"properties": {"data": {"$ref": "#/$defs/reconciliationData"}}}
+        }
+      ],
+      "additionalProperties": false
+    },
+    "proposalData": {
+      "type": "object",
+      "required": [
+        "originating_principal",
+        "authority_ref",
+        "action",
+        "target",
+        "parameters_digest",
+        "evidence_refs",
+        "intended_transition",
+        "nonce"
+      ],
+      "properties": {
+        "originating_principal": {"$ref": "#/$defs/principal"},
+        "authority_ref": {"$ref": "#/$defs/identifier"},
+        "action": {"type": "string", "minLength": 1},
+        "target": {"$ref": "#/$defs/target"},
+        "parameters_digest": {"$ref": "#/$defs/digest"},
+        "before_state": {"$ref": "#/$defs/stateRef"},
+        "intended_transition": {"$ref": "#/$defs/stateRef"},
+        "evidence_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "context_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "consequence_class": {"type": "string", "minLength": 1},
+        "nonce": {"type": "string", "minLength": 8}
+      },
+      "additionalProperties": false
+    },
+    "determinationData": {
+      "type": "object",
+      "required": [
+        "proposal_ref",
+        "outcome",
+        "policy_ref",
+        "authority_evidence_refs",
+        "reason_codes",
+        "issued_at",
+        "not_before",
+        "not_after",
+        "max_uses",
+        "material_change_invalidators",
+        "revocation"
+      ],
+      "properties": {
+        "proposal_ref": {"$ref": "#/$defs/recordRef"},
+        "outcome": {"enum": ["allow", "deny", "hold", "escalate", "constrain"]},
+        "policy_ref": {"$ref": "#/$defs/identifier"},
+        "authority_evidence_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "issued_at": {"$ref": "#/$defs/timestamp"},
+        "not_before": {"$ref": "#/$defs/timestamp"},
+        "not_after": {"$ref": "#/$defs/timestamp"},
+        "max_uses": {"type": "integer", "minimum": 0},
+        "material_change_invalidators": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "revocation": {
+          "type": "object",
+          "required": ["status", "checked_at"],
+          "properties": {
+            "status": {"enum": ["not_revoked", "revoked", "unavailable"]},
+            "checked_at": {"$ref": "#/$defs/timestamp"},
+            "reference": {"$ref": "#/$defs/identifier"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "enforcementData": {
+      "type": "object",
+      "required": [
+        "determination_ref",
+        "proposal_ref",
+        "acceptance_outcome",
+        "enforcement_point",
+        "actual_actor",
+        "actual_action",
+        "actual_target",
+        "actual_parameters_digest",
+        "checks",
+        "nonce",
+        "irreversible_boundary_crossed",
+        "reason_codes"
+      ],
+      "properties": {
+        "determination_ref": {"$ref": "#/$defs/recordRef"},
+        "proposal_ref": {"$ref": "#/$defs/recordRef"},
+        "acceptance_outcome": {"enum": ["accepted", "rejected", "unavailable", "insufficient_evidence"]},
+        "enforcement_point": {"$ref": "#/$defs/principal"},
+        "actual_actor": {"$ref": "#/$defs/principal"},
+        "actual_action": {"type": "string", "minLength": 1},
+        "actual_target": {"$ref": "#/$defs/target"},
+        "actual_parameters_digest": {"$ref": "#/$defs/digest"},
+        "checks": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/checkResult"}
+        },
+        "nonce": {"type": "string", "minLength": 8},
+        "irreversible_boundary_crossed": {"type": "boolean"},
+        "reason_codes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    },
+    "executionData": {
+      "type": "object",
+      "required": [
+        "enforcement_ref",
+        "operation",
+        "actor",
+        "target",
+        "parameters_digest",
+        "result_status",
+        "substrate",
+        "started_at",
+        "indicators"
+      ],
+      "properties": {
+        "enforcement_ref": {"$ref": "#/$defs/recordRef"},
+        "operation": {"type": "string", "minLength": 1},
+        "actor": {"$ref": "#/$defs/principal"},
+        "target": {"$ref": "#/$defs/target"},
+        "parameters_digest": {"$ref": "#/$defs/digest"},
+        "result_status": {
+          "enum": ["not_attempted", "started", "completed", "partial", "failed", "rolled_back", "compensated", "unknown", "unavailable"]
+        },
+        "substrate": {"$ref": "#/$defs/principal"},
+        "started_at": {"$ref": "#/$defs/timestamp"},
+        "completed_at": {"$ref": "#/$defs/timestamp"},
+        "output_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "indicators": {
+          "type": "object",
+          "required": ["retry", "replay", "duplicate", "rollback", "compensation"],
+          "properties": {
+            "retry": {"type": "boolean"},
+            "replay": {"type": "boolean"},
+            "duplicate": {"type": "boolean"},
+            "rollback": {"type": "boolean"},
+            "compensation": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "observationData": {
+      "type": "object",
+      "required": [
+        "observer",
+        "method",
+        "method_version",
+        "target",
+        "observed_state",
+        "observed_at",
+        "freshness_seconds",
+        "independence_basis",
+        "limitations"
+      ],
+      "properties": {
+        "observer": {"$ref": "#/$defs/principal"},
+        "method": {"type": "string", "minLength": 1},
+        "method_version": {"type": "string", "minLength": 1},
+        "target": {"$ref": "#/$defs/target"},
+        "execution_ref": {"$ref": "#/$defs/recordRef"},
+        "transition_ref": {"$ref": "#/$defs/identifier"},
+        "observed_state": {"$ref": "#/$defs/stateRef"},
+        "observed_at": {"$ref": "#/$defs/timestamp"},
+        "freshness_seconds": {"type": "integer", "minimum": 0},
+        "independence_basis": {"type": "string", "minLength": 1},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "limitations": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "anyOf": [
+        {"required": ["execution_ref"]},
+        {"required": ["transition_ref"]}
+      ],
+      "additionalProperties": false
+    },
+    "reconciliationData": {
+      "type": "object",
+      "required": [
+        "record_refs",
+        "expected_transition",
+        "observed_state_refs",
+        "method",
+        "method_version",
+        "result",
+        "reason_codes",
+        "residual_grounding_uncertainty",
+        "reconciler"
+      ],
+      "properties": {
+        "record_refs": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"$ref": "#/$defs/recordRef"}
+        },
+        "expected_transition": {"$ref": "#/$defs/stateRef"},
+        "observed_state_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/recordRef"}
+        },
+        "method": {"type": "string", "minLength": 1},
+        "method_version": {"type": "string", "minLength": 1},
+        "result": {"enum": ["matched", "missing", "conflicting", "unresolved", "not_applicable"]},
+        "reason_codes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "residual_grounding_uncertainty": {"type": "string", "minLength": 1},
+        "reconciler": {"$ref": "#/$defs/principal"}
+      },
+      "additionalProperties": false
+    },
+    "checkResult": {
+      "type": "object",
+      "required": ["check", "result", "checked_at"],
+      "properties": {
+        "check": {"type": "string", "minLength": 1},
+        "result": {"enum": ["pass", "fail", "insufficient_evidence", "not_applicable"]},
+        "checked_at": {"$ref": "#/$defs/timestamp"},
+        "evidence_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "link": {
+      "type": "object",
+      "required": [
+        "link_id",
+        "relation",
+        "source",
+        "target",
+        "asserted_by",
+        "asserted_at",
+        "schema_id",
+        "canonicalization_id",
+        "integrity"
+      ],
+      "properties": {
+        "link_id": {"$ref": "#/$defs/identifier"},
+        "relation": {"enum": ["evaluates", "enforces", "attempts", "observes", "reconciles", "supersedes", "transforms"]},
+        "source": {"$ref": "#/$defs/recordRef"},
+        "target": {"$ref": "#/$defs/recordRef"},
+        "asserted_by": {"$ref": "#/$defs/principal"},
+        "asserted_at": {"$ref": "#/$defs/timestamp"},
+        "schema_id": {"$ref": "#/$defs/identifier"},
+        "canonicalization_id": {"type": "string", "minLength": 1},
+        "integrity": {"$ref": "#/$defs/integrity"},
+        "extensions": {"type": "object", "additionalProperties": true}
+      },
+      "additionalProperties": false
+    },
+    "evaluation": {
+      "type": "object",
+      "required": ["property", "result", "checked_at", "verifier", "reason_codes"],
+      "properties": {
+        "property": {
+          "enum": [
+            "component_integrity",
+            "proposal_binding",
+            "authority_validity",
+            "determination_validity",
+            "enforcement_binding",
+            "execution_binding",
+            "consequence_binding",
+            "replay_resistance",
+            "temporal_anchoring",
+            "custody_continuity",
+            "producer_basis",
+            "grounding"
+          ]
+        },
+        "result": {"enum": ["pass", "fail", "insufficient_evidence", "not_applicable"]},
+        "checked_at": {"$ref": "#/$defs/timestamp"},
+        "verifier": {"$ref": "#/$defs/principal"},
+        "reason_codes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/identifier"}
+        },
+        "notes": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "independenceClaim": {
+      "type": "object",
+      "required": ["status", "basis"],
+      "properties": {
+        "status": {"enum": ["claimed", "not_claimed", "insufficient_evidence"]},
+        "basis": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      },
+      "additionalProperties": false
+    },
+    "evaluationContract": {
+      "type": "object",
+      "required": [
+        "property_set_id",
+        "mandatory_properties",
+        "aggregation_rule_id",
+        "aggregation_rule_version",
+        "verifier_method_id",
+        "verifier_method_version",
+        "independence"
+      ],
+      "properties": {
+        "property_set_id": {"const": "safe-galc/0.1/full-lifecycle"},
+        "mandatory_properties": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "component_integrity",
+              "proposal_binding",
+              "authority_validity",
+              "determination_validity",
+              "enforcement_binding",
+              "execution_binding",
+              "consequence_binding",
+              "replay_resistance"
+            ]
+          }
+        },
+        "aggregation_rule_id": {"const": "safe-galc/0.1/mandatory-precedence"},
+        "aggregation_rule_version": {"const": "1"},
+        "verifier_method_id": {"$ref": "#/$defs/identifier"},
+        "verifier_method_version": {"type": "string", "minLength": 1},
+        "independence": {"$ref": "#/$defs/independenceClaim"}
+      },
+      "additionalProperties": false
+    },
+    "evaluationSet": {
+      "type": "array",
+      "minItems": 8,
+      "items": {"$ref": "#/$defs/evaluation"},
+      "allOf": [
+        {"contains": {"properties": {"property": {"const": "component_integrity"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "proposal_binding"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "authority_validity"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "determination_validity"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "enforcement_binding"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "execution_binding"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "consequence_binding"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "replay_resistance"}}, "required": ["property"]}, "minContains": 1, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "temporal_anchoring"}}, "required": ["property"]}, "minContains": 0, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "custody_continuity"}}, "required": ["property"]}, "minContains": 0, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "producer_basis"}}, "required": ["property"]}, "minContains": 0, "maxContains": 1},
+        {"contains": {"properties": {"property": {"const": "grounding"}}, "required": ["property"]}, "minContains": 0, "maxContains": 1}
+      ]
+    },
+    "overallResult": {
+      "enum": ["correlated", "correlation_failed", "insufficient_evidence", "not_applicable"]
+    }
+  }
+}

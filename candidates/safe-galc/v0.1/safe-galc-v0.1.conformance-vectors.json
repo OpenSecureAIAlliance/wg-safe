@@ -1,0 +1,1566 @@
+{
+  "manifest": {
+    "id": "safe-galc-conformance-skeletons/0.1",
+    "status": "candidate-not-adopted",
+    "generated_at": "2026-09-17T14:00:00Z",
+    "profile": "safe-galc/0.1",
+    "schema": "safe-galc-v0.1.schema.json",
+    "fixture_model": "Deep-copy base_lifecycle and base_verification_context, then apply each vector's add, remove, and replace operations in listed order using JSON Pointer paths. The lifecycle copy is a structural fixture envelope.",
+    "fixture_output_fields": ["evaluations", "overall_result"],
+    "fixture_output_boundary": "The evaluations and overall_result stored in base_lifecycle are structural fixture placeholders. They are not scenario inputs and MUST NOT be represented as verifier-produced results for a materialized vector.",
+    "scenario_input_projection": "After applying semantic_changes, remove evaluations and overall_result. Emit the remaining lifecycle as scenario-input; emit base_verification_context separately. No expected values are verifier inputs.",
+    "integrity_recomputation": "When recompute_integrity is true, recompute affected record payload digests under the declared canonicalization and digest algorithm, update dependent record references and typed-link endpoints transitively, and regenerate or remove invalidated integrity assertions. When false, preserve the deliberate inconsistency.",
+    "evaluation_model": "Eligible semantic cases supply separate scenario-input and verification-context artifacts. A future verifier independently computes actual outputs; expected-output is only a comparator oracle. Structural negative cases have no semantic oracle. The current harness performs structural and oracle-consistency checks only.",
+    "digest_values": "Synthetic identifiers for semantic testing; they are not hashes of the fixture bytes.",
+    "claim_boundary": "These are machine-readable scenario skeletons, not cryptographic known-answer vectors and not evidence of an implementation run.",
+    "scenario_count": 22,
+    "comparison_rule_id": "safe-galc/0.1/partial-expectations/1",
+    "verification_context_boundary": "Synthetic resolver/test-double declarations, not live anchoring evidence or actual GALC verifier results. A future test driver must instantiate this context explicitly and bind its immutable revision to the run. It must not read expected-output while evaluating a scenario.",
+    "test_scopes": [
+      "semantic_scenario",
+      "structural_input_negative",
+      "output_envelope_negative"
+    ]
+  },
+  "base_lifecycle": {
+    "profile": "safe-galc",
+    "profile_version": "0.1",
+    "lifecycle_id": "urn:uuid:3d8f3a43-c6c6-40b0-8f34-b6ca2d9fa510",
+    "transition_id": "urn:example:transition:inventory-42",
+    "created_at": "2026-09-17T12:00:08Z",
+    "producer": {
+      "id": "urn:example:reconciler:1",
+      "trust_domain": "review.example"
+    },
+    "records": [
+      {
+        "record_id": "urn:example:record:proposal-1",
+        "record_type": "proposal",
+        "schema_id": "urn:example:schema:proposal:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "digest_algorithm": "sha-256",
+        "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "producer": {
+          "id": "urn:example:agent:7",
+          "trust_domain": "agent.example"
+        },
+        "issued_at": "2026-09-17T12:00:00Z",
+        "availability": "available",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile",
+          "signature_ref": "urn:example:signature:proposal-1",
+          "key_ref": "urn:example:key:agent-7"
+        },
+        "anchor": {
+          "status": "anchored",
+          "reference": "urn:example:anchor:proposal-1",
+          "result_ref": {
+            "record_id": "urn:example:anchor-result:1",
+            "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        },
+        "custody": {
+          "status": "accepted_available",
+          "result_ref": {
+            "record_id": "urn:example:custody:proposal-1",
+            "digest": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+          },
+          "verifier": {"id": "urn:example:verifier:custody-1", "trust_domain": "custody.example"},
+          "method": "safe-custody-receipt-projection",
+          "method_version": "0.1",
+          "evidence_basis": [
+            {
+              "record_id": "urn:example:custody:proposal-1",
+              "digest": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+            }
+          ]
+        },
+        "data": {
+          "originating_principal": {
+            "id": "urn:example:agent:7",
+            "trust_domain": "agent.example",
+            "role": "inventory-agent"
+          },
+          "authority_ref": "urn:example:authority:agent-7-inventory",
+          "action": "set_inventory_reservation",
+          "target": {
+            "id": "urn:example:shelf:42",
+            "trust_domain": "edge.example",
+            "resource_type": "inventory-location"
+          },
+          "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "before_state": {
+            "id": "urn:example:state:shelf-42:10",
+            "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "schema_id": "urn:example:schema:inventory-state:1",
+            "predicate": "available_units == 10"
+          },
+          "intended_transition": {
+            "id": "urn:example:state:shelf-42:9",
+            "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "schema_id": "urn:example:schema:inventory-state:1",
+            "predicate": "available_units == 9"
+          },
+          "evidence_refs": [
+            "urn:example:evidence:vision-42",
+            "urn:example:evidence:weight-42"
+          ],
+          "context_refs": ["urn:example:context:session-12"],
+          "consequence_class": "bounded-operational",
+          "nonce": "nonce-00000001"
+        }
+      },
+      {
+        "record_id": "urn:example:record:determination-1",
+        "record_type": "governance_determination",
+        "schema_id": "urn:example:schema:determination:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "digest_algorithm": "sha-256",
+        "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "producer": {
+          "id": "urn:example:governance:1",
+          "trust_domain": "governance.example"
+        },
+        "issued_at": "2026-09-17T12:00:01Z",
+        "availability": "available",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile",
+          "signature_ref": "urn:example:signature:determination-1",
+          "key_ref": "urn:example:key:governance-1"
+        },
+        "anchor": {
+          "status": "anchored",
+          "reference": "urn:example:anchor:determination-1",
+          "result_ref": {
+            "record_id": "urn:example:anchor-result:2",
+            "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        },
+        "custody": {
+          "status": "accepted_available",
+          "result_ref": {
+            "record_id": "urn:example:custody:determination-1",
+            "digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+          },
+          "verifier": {"id": "urn:example:verifier:custody-1", "trust_domain": "custody.example"},
+          "method": "safe-custody-receipt-projection",
+          "method_version": "0.1",
+          "evidence_basis": [
+            {
+              "record_id": "urn:example:custody:determination-1",
+              "digest": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+            }
+          ]
+        },
+        "data": {
+          "proposal_ref": {
+            "record_id": "urn:example:record:proposal-1",
+            "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "outcome": "allow",
+          "policy_ref": "urn:example:policy:inventory:7",
+          "authority_evidence_refs": ["urn:example:authority:agent-7-inventory"],
+          "reason_codes": ["policy_allow"],
+          "issued_at": "2026-09-17T12:00:01Z",
+          "not_before": "2026-09-17T12:00:01Z",
+          "not_after": "2026-09-17T12:01:01Z",
+          "max_uses": 1,
+          "material_change_invalidators": [
+            "actor",
+            "authority",
+            "target",
+            "action",
+            "parameters",
+            "evidence_freshness",
+            "policy",
+            "revocation"
+          ],
+          "revocation": {
+            "status": "not_revoked",
+            "checked_at": "2026-09-17T12:00:01Z",
+            "reference": "urn:example:revocation:determination-1"
+          }
+        }
+      },
+      {
+        "record_id": "urn:example:record:enforcement-1",
+        "record_type": "enforcement_event",
+        "schema_id": "urn:example:schema:enforcement:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "digest_algorithm": "sha-256",
+        "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "producer": {
+          "id": "urn:example:enforcement:edge-1",
+          "trust_domain": "edge.example"
+        },
+        "issued_at": "2026-09-17T12:00:02Z",
+        "availability": "available",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile",
+          "signature_ref": "urn:example:signature:enforcement-1",
+          "key_ref": "urn:example:key:edge-1"
+        },
+        "anchor": {
+          "status": "anchored",
+          "reference": "urn:example:anchor:enforcement-1",
+          "result_ref": {
+            "record_id": "urn:example:anchor-result:3",
+            "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          }
+        },
+        "custody": {
+          "status": "accepted_available",
+          "result_ref": {
+            "record_id": "urn:example:custody:enforcement-1",
+            "digest": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+          },
+          "verifier": {"id": "urn:example:verifier:custody-1", "trust_domain": "custody.example"},
+          "method": "safe-custody-receipt-projection",
+          "method_version": "0.1",
+          "evidence_basis": [
+            {
+              "record_id": "urn:example:custody:enforcement-1",
+              "digest": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+            }
+          ]
+        },
+        "data": {
+          "determination_ref": {
+            "record_id": "urn:example:record:determination-1",
+            "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          },
+          "proposal_ref": {
+            "record_id": "urn:example:record:proposal-1",
+            "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "acceptance_outcome": "accepted",
+          "enforcement_point": {
+            "id": "urn:example:enforcement:edge-1",
+            "trust_domain": "edge.example",
+            "role": "execution-boundary"
+          },
+          "actual_actor": {
+            "id": "urn:example:agent:7",
+            "trust_domain": "agent.example",
+            "role": "inventory-agent"
+          },
+          "actual_action": "set_inventory_reservation",
+          "actual_target": {
+            "id": "urn:example:shelf:42",
+            "trust_domain": "edge.example",
+            "resource_type": "inventory-location"
+          },
+          "actual_parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "checks": [
+            {
+              "check": "determination_validity",
+              "result": "pass",
+              "checked_at": "2026-09-17T12:00:02Z",
+              "evidence_refs": ["urn:example:record:determination-1"]
+            },
+            {
+              "check": "revocation",
+              "result": "pass",
+              "checked_at": "2026-09-17T12:00:02Z",
+              "evidence_refs": ["urn:example:revocation:determination-1"]
+            }
+          ],
+          "nonce": "nonce-00000001",
+          "irreversible_boundary_crossed": false,
+          "reason_codes": []
+        }
+      },
+      {
+        "record_id": "urn:example:record:execution-1",
+        "record_type": "execution_result",
+        "schema_id": "urn:example:schema:execution:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "digest_algorithm": "sha-256",
+        "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "producer": {
+          "id": "urn:example:runtime:edge-1",
+          "trust_domain": "edge.example"
+        },
+        "issued_at": "2026-09-17T12:00:04Z",
+        "availability": "available",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile",
+          "signature_ref": "urn:example:signature:execution-1",
+          "key_ref": "urn:example:key:runtime-edge-1"
+        },
+        "anchor": {
+          "status": "anchored",
+          "reference": "urn:example:anchor:execution-1",
+          "result_ref": {
+            "record_id": "urn:example:anchor-result:4",
+            "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        },
+        "custody": {
+          "status": "accepted_available",
+          "result_ref": {
+            "record_id": "urn:example:custody:execution-1",
+            "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "verifier": {"id": "urn:example:verifier:custody-1", "trust_domain": "custody.example"},
+          "method": "safe-custody-receipt-projection",
+          "method_version": "0.1",
+          "evidence_basis": [
+            {
+              "record_id": "urn:example:custody:execution-1",
+              "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ]
+        },
+        "data": {
+          "enforcement_ref": {
+            "record_id": "urn:example:record:enforcement-1",
+            "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+          },
+          "operation": "set_inventory_reservation",
+          "actor": {
+            "id": "urn:example:agent:7",
+            "trust_domain": "agent.example",
+            "role": "inventory-agent"
+          },
+          "target": {
+            "id": "urn:example:shelf:42",
+            "trust_domain": "edge.example",
+            "resource_type": "inventory-location"
+          },
+          "parameters_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "result_status": "completed",
+          "substrate": {
+            "id": "urn:example:runtime:edge-1",
+            "trust_domain": "edge.example",
+            "role": "execution-substrate"
+          },
+          "started_at": "2026-09-17T12:00:03Z",
+          "completed_at": "2026-09-17T12:00:04Z",
+          "output_refs": ["urn:example:output:reservation-42"],
+          "indicators": {
+            "retry": false,
+            "replay": false,
+            "duplicate": false,
+            "rollback": false,
+            "compensation": false
+          }
+        }
+      },
+      {
+        "record_id": "urn:example:record:observation-1",
+        "record_type": "observation",
+        "schema_id": "urn:example:schema:observation:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "digest_algorithm": "sha-256",
+        "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "producer": {
+          "id": "urn:example:observer:2",
+          "trust_domain": "observation.example"
+        },
+        "issued_at": "2026-09-17T12:00:05Z",
+        "availability": "available",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile",
+          "signature_ref": "urn:example:signature:observation-1",
+          "key_ref": "urn:example:key:observer-2"
+        },
+        "anchor": {
+          "status": "anchored",
+          "reference": "urn:example:anchor:observation-1",
+          "result_ref": {
+            "record_id": "urn:example:anchor-result:5",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        },
+        "custody": {
+          "status": "accepted_available",
+          "result_ref": {
+            "record_id": "urn:example:custody:observation-1",
+            "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          },
+          "verifier": {"id": "urn:example:verifier:custody-1", "trust_domain": "custody.example"},
+          "method": "safe-custody-receipt-projection",
+          "method_version": "0.1",
+          "evidence_basis": [
+            {
+              "record_id": "urn:example:custody:observation-1",
+              "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            }
+          ]
+        },
+        "data": {
+          "observer": {
+            "id": "urn:example:observer:2",
+            "trust_domain": "observation.example",
+            "role": "state-observer"
+          },
+          "method": "multimodal-state-observation",
+          "method_version": "1.0",
+          "target": {
+            "id": "urn:example:shelf:42",
+            "trust_domain": "edge.example",
+            "resource_type": "inventory-location"
+          },
+          "execution_ref": {
+            "record_id": "urn:example:record:execution-1",
+            "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+          },
+          "transition_ref": "urn:example:transition:inventory-42",
+          "observed_state": {
+            "id": "urn:example:state:shelf-42:9",
+            "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "schema_id": "urn:example:schema:inventory-state:1",
+            "predicate": "available_units == 9"
+          },
+          "observed_at": "2026-09-17T12:00:05Z",
+          "freshness_seconds": 5,
+          "independence_basis": "Separately administered observer with distinct signing key and data path.",
+          "confidence": 0.99,
+          "limitations": ["Physical observation remains subject to sensor and oracle uncertainty."]
+        }
+      },
+      {
+        "record_id": "urn:example:record:reconciliation-1",
+        "record_type": "reconciliation_result",
+        "schema_id": "urn:example:schema:reconciliation:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "digest_algorithm": "sha-256",
+        "digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "producer": {
+          "id": "urn:example:reconciler:1",
+          "trust_domain": "review.example"
+        },
+        "issued_at": "2026-09-17T12:00:06Z",
+        "availability": "available",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile",
+          "signature_ref": "urn:example:signature:reconciliation-1",
+          "key_ref": "urn:example:key:reconciler-1"
+        },
+        "anchor": {
+          "status": "anchored",
+          "reference": "urn:example:anchor:reconciliation-1",
+          "result_ref": {
+            "record_id": "urn:example:anchor-result:6",
+            "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          }
+        },
+        "custody": {
+          "status": "accepted_available",
+          "result_ref": {
+            "record_id": "urn:example:custody:reconciliation-1",
+            "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          },
+          "verifier": {"id": "urn:example:verifier:custody-1", "trust_domain": "custody.example"},
+          "method": "safe-custody-receipt-projection",
+          "method_version": "0.1",
+          "evidence_basis": [
+            {
+              "record_id": "urn:example:custody:reconciliation-1",
+              "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ]
+        },
+        "data": {
+          "record_refs": [
+            {
+              "record_id": "urn:example:record:proposal-1",
+              "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+            },
+            {
+              "record_id": "urn:example:record:determination-1",
+              "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            },
+            {
+              "record_id": "urn:example:record:enforcement-1",
+              "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+            },
+            {
+              "record_id": "urn:example:record:execution-1",
+              "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+            },
+            {
+              "record_id": "urn:example:record:observation-1",
+              "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "expected_transition": {
+            "id": "urn:example:state:shelf-42:9",
+            "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "schema_id": "urn:example:schema:inventory-state:1",
+            "predicate": "available_units == 9"
+          },
+          "observed_state_refs": [
+            {
+              "record_id": "urn:example:record:observation-1",
+              "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "method": "exact-state-predicate-comparison",
+          "method_version": "1.0",
+          "result": "matched",
+          "reason_codes": [],
+          "residual_grounding_uncertainty": "Record integrity and cross-record correlation do not prove that the physical observer reported reality truthfully.",
+          "reconciler": {
+            "id": "urn:example:reconciler:1",
+            "trust_domain": "review.example",
+            "role": "lifecycle-reconciler"
+          }
+        }
+      }
+    ],
+    "links": [
+      {
+        "link_id": "urn:example:link:evaluates-1",
+        "relation": "evaluates",
+        "source": {
+          "record_id": "urn:example:record:determination-1",
+          "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "target": {
+          "record_id": "urn:example:record:proposal-1",
+          "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        },
+        "asserted_by": {
+          "id": "urn:example:governance:1",
+          "trust_domain": "governance.example"
+        },
+        "asserted_at": "2026-09-17T12:00:01Z",
+        "schema_id": "urn:example:schema:lifecycle-link:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile"
+        }
+      },
+      {
+        "link_id": "urn:example:link:enforces-1",
+        "relation": "enforces",
+        "source": {
+          "record_id": "urn:example:record:enforcement-1",
+          "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "target": {
+          "record_id": "urn:example:record:determination-1",
+          "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+        },
+        "asserted_by": {
+          "id": "urn:example:enforcement:edge-1",
+          "trust_domain": "edge.example"
+        },
+        "asserted_at": "2026-09-17T12:00:02Z",
+        "schema_id": "urn:example:schema:lifecycle-link:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile"
+        }
+      },
+      {
+        "link_id": "urn:example:link:attempts-1",
+        "relation": "attempts",
+        "source": {
+          "record_id": "urn:example:record:execution-1",
+          "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        },
+        "target": {
+          "record_id": "urn:example:record:enforcement-1",
+          "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        },
+        "asserted_by": {
+          "id": "urn:example:runtime:edge-1",
+          "trust_domain": "edge.example"
+        },
+        "asserted_at": "2026-09-17T12:00:04Z",
+        "schema_id": "urn:example:schema:lifecycle-link:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile"
+        }
+      },
+      {
+        "link_id": "urn:example:link:observes-1",
+        "relation": "observes",
+        "source": {
+          "record_id": "urn:example:record:observation-1",
+          "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+        },
+        "target": {
+          "record_id": "urn:example:record:execution-1",
+          "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+        },
+        "asserted_by": {
+          "id": "urn:example:observer:2",
+          "trust_domain": "observation.example"
+        },
+        "asserted_at": "2026-09-17T12:00:05Z",
+        "schema_id": "urn:example:schema:lifecycle-link:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile"
+        }
+      },
+      {
+        "link_id": "urn:example:link:reconciles-1",
+        "relation": "reconciles",
+        "source": {
+          "record_id": "urn:example:record:reconciliation-1",
+          "digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+        },
+        "target": {
+          "record_id": "urn:example:record:observation-1",
+          "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+        },
+        "asserted_by": {
+          "id": "urn:example:reconciler:1",
+          "trust_domain": "review.example"
+        },
+        "asserted_at": "2026-09-17T12:00:06Z",
+        "schema_id": "urn:example:schema:lifecycle-link:1",
+        "canonicalization_id": "rfc8785-jcs",
+        "integrity": {
+          "status": "pass",
+          "method": "example-signature-profile"
+        }
+      }
+    ],
+    "evaluation_contract": {
+      "property_set_id": "safe-galc/0.1/full-lifecycle",
+      "mandatory_properties": [
+        "component_integrity",
+        "proposal_binding",
+        "authority_validity",
+        "determination_validity",
+        "enforcement_binding",
+        "execution_binding",
+        "consequence_binding",
+        "replay_resistance"
+      ],
+      "aggregation_rule_id": "safe-galc/0.1/mandatory-precedence",
+      "aggregation_rule_version": "1",
+      "verifier_method_id": "urn:example:method:safe-galc-semantic-verifier",
+      "verifier_method_version": "0.1",
+      "independence": {
+        "status": "not_claimed",
+        "basis": ["Synthetic fixture; verifier independence is not established."]
+      }
+    },
+    "evaluations": [
+      {
+        "property": "component_integrity",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "proposal_binding",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "authority_validity",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "determination_validity",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "enforcement_binding",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "execution_binding",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "consequence_binding",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "replay_resistance",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "temporal_anchoring",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "custody_continuity",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "producer_basis",
+        "result": "pass",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": []
+      },
+      {
+        "property": "grounding",
+        "result": "insufficient_evidence",
+        "checked_at": "2026-09-17T12:00:07Z",
+        "verifier": {"id": "urn:example:verifier:1", "trust_domain": "review.example"},
+        "reason_codes": ["grounding_unresolved"]
+      }
+    ],
+    "overall_result": "correlated",
+    "limitations": [
+      "Synthetic candidate fixture; no live system execution is represented.",
+      "Correlation can pass while external grounding remains unresolved."
+    ]
+  },
+  "vectors": [
+    {
+      "id": "GALC-001",
+      "title": "Authorized and matched transition",
+      "semantic_changes": [],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {
+          "proposal_binding": "pass",
+          "determination_validity": "pass",
+          "enforcement_binding": "pass",
+          "execution_binding": "pass",
+          "consequence_binding": "pass",
+          "grounding": "insufficient_evidence"
+        },
+        "reason_codes": ["grounding_unresolved"]
+      },
+      "forbidden_inference": "A correlated lifecycle must not be represented as proof that the physical observation is objectively true.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-002",
+      "title": "Valid components bound to the wrong determination",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/2/data/determination_ref/record_id",
+          "value": "urn:example:record:determination-other"
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/2/data/determination_ref/digest",
+          "value": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlation_failed",
+        "evaluations": {"component_integrity": "pass", "enforcement_binding": "fail"},
+        "reason_codes": ["proposal_digest_mismatch", "correlation_ambiguous"]
+      },
+      "forbidden_inference": "Valid signatures on each component do not establish that the enforcement event consumed the governed determination.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-003",
+      "title": "Determination expired before enforcement",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/1/data/not_after",
+          "value": "2026-09-17T12:00:01Z"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlation_failed",
+        "evaluations": {"determination_validity": "fail", "enforcement_binding": "fail"},
+        "reason_codes": ["determination_expired"]
+      },
+      "forbidden_inference": "Signature validity must not override expiry.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-004",
+      "title": "Authority revoked before irreversible boundary",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/1/data/revocation/status",
+          "value": "revoked"
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/1/data/revocation/checked_at",
+          "value": "2026-09-17T12:00:02Z"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlation_failed",
+        "evaluations": {"authority_validity": "fail", "determination_validity": "fail"},
+        "reason_codes": ["authority_invalid", "determination_revoked"]
+      },
+      "forbidden_inference": "A previously valid determination must not survive a revocation condition it declares invalidating.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-005",
+      "title": "Execution parameter substitution",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/3/data/parameters_digest",
+          "value": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlation_failed",
+        "evaluations": {"component_integrity": "pass", "execution_binding": "fail"},
+        "reason_codes": ["parameters_mismatch"]
+      },
+      "forbidden_inference": "Successful operation completion does not establish that authorized parameters were used.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-006",
+      "title": "Consumed authorization replay",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/3/data/indicators/replay",
+          "value": true
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/3/data/indicators/duplicate",
+          "value": true
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlation_failed",
+        "evaluations": {"replay_resistance": "fail", "execution_binding": "fail"},
+        "reason_codes": ["replay_detected", "duplicate_execution"]
+      },
+      "forbidden_inference": "An idempotency key is not evidence of single execution unless consumption state is checked.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-007",
+      "title": "Partial execution",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/3/data/result_status",
+          "value": "partial"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "insufficient_evidence",
+        "evaluations": {"execution_binding": "pass", "consequence_binding": "insufficient_evidence"},
+        "reason_codes": ["execution_partial"]
+      },
+      "forbidden_inference": "Command acceptance must not be reported as completed execution.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-008",
+      "title": "Missing resulting-state observation",
+      "semantic_changes": [
+        {
+          "operation": "remove",
+          "path": "/base_lifecycle/records/4"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "insufficient_evidence",
+        "evaluations": {"execution_binding": "pass", "consequence_binding": "insufficient_evidence"},
+        "reason_codes": ["observation_missing"]
+      },
+      "forbidden_inference": "A completed execution report must not be represented as a verified external consequence.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-009",
+      "title": "Conflicting resulting-state observers",
+      "semantic_changes": [
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/records/-",
+          "value": {
+            "record_id": "urn:example:record:observation-conflict",
+            "record_type": "observation",
+            "schema_id": "urn:example:schema:observation:1",
+            "canonicalization_id": "rfc8785-jcs",
+            "digest_algorithm": "sha-256",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "producer": {
+              "id": "urn:example:observer:3",
+              "trust_domain": "independent-observation.example"
+            },
+            "issued_at": "2026-09-17T12:00:05Z",
+            "availability": "available",
+            "integrity": {
+              "status": "pass",
+              "method": "example-signature-profile",
+              "signature_ref": "urn:example:signature:observation-conflict",
+              "key_ref": "urn:example:key:observer-3"
+            },
+            "anchor": {
+              "status": "unanchored"
+            },
+            "custody": {
+              "status": "accepted_available",
+              "result_ref": {
+                "record_id": "urn:example:custody:observation-conflict",
+                "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+              },
+              "verifier": {"id": "urn:example:verifier:custody-1", "trust_domain": "custody.example"},
+              "method": "safe-custody-receipt-projection",
+              "method_version": "0.1",
+              "evidence_basis": [
+                {
+                  "record_id": "urn:example:custody:observation-conflict",
+                  "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+                }
+              ]
+            },
+            "data": {
+              "observer": {
+                "id": "urn:example:observer:3",
+                "trust_domain": "independent-observation.example",
+                "role": "state-observer"
+              },
+              "method": "independent-state-observation",
+              "method_version": "1.0",
+              "target": {
+                "id": "urn:example:shelf:42",
+                "trust_domain": "edge.example",
+                "resource_type": "inventory-location"
+              },
+              "execution_ref": {
+                "record_id": "urn:example:record:execution-1",
+                "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+              },
+              "transition_ref": "urn:example:transition:inventory-42",
+              "observed_state": {
+                "id": "urn:example:state:shelf-42:8",
+                "digest": "sha256:abababababababababababababababababababababababababababababababab",
+                "schema_id": "urn:example:schema:inventory-state:1",
+                "predicate": "available_units == 8"
+              },
+              "observed_at": "2026-09-17T12:00:05Z",
+              "freshness_seconds": 5,
+              "independence_basis": "Separately administered observer with distinct signing key and data path.",
+              "confidence": 0.98,
+              "limitations": ["Synthetic conflicting observation; no external truth claim is made."]
+            }
+          }
+        },
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/links/-",
+          "value": {
+            "link_id": "urn:example:link:observes-conflict",
+            "relation": "observes",
+            "source": {
+              "record_id": "urn:example:record:observation-conflict",
+              "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            },
+            "target": {
+              "record_id": "urn:example:record:execution-1",
+              "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+            },
+            "asserted_by": {
+              "id": "urn:example:observer:3",
+              "trust_domain": "independent-observation.example"
+            },
+            "asserted_at": "2026-09-17T12:00:05Z",
+            "schema_id": "urn:example:schema:lifecycle-link:1",
+            "canonicalization_id": "rfc8785-jcs",
+            "integrity": {"status": "pass", "method": "example-signature-profile"}
+          }
+        },
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/records/5/data/record_refs/-",
+          "value": {
+            "record_id": "urn:example:record:observation-conflict",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        },
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/records/5/data/observed_state_refs/-",
+          "value": {
+            "record_id": "urn:example:record:observation-conflict",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/5/data/result",
+          "value": "conflicting"
+        },
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/records/5/data/reason_codes/-",
+          "value": "observation_conflict"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "insufficient_evidence",
+        "evaluations": {"consequence_binding": "insufficient_evidence", "grounding": "insufficient_evidence"},
+        "reason_codes": ["observation_conflict", "grounding_unresolved"]
+      },
+      "forbidden_inference": "A majority or higher confidence score must not silently erase a materially conflicting observation.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-010",
+      "title": "Observed consequence differs from governed transition",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/data/observed_state/digest",
+          "value": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/5/data/result",
+          "value": "conflicting"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlation_failed",
+        "evaluations": {"execution_binding": "pass", "consequence_binding": "fail"},
+        "reason_codes": ["consequence_mismatch"]
+      },
+      "forbidden_inference": "Internal execution success must not override contradictory resulting-state evidence.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-011",
+      "title": "Anchored evidence with insufficient custody evidence",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/custody/status",
+          "value": "insufficient_evidence"
+        },
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/records/4/custody/limitations",
+          "value": ["The referenced custody result cannot presently establish complete continuity."]
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {"temporal_anchoring": "pass", "custody_continuity": "insufficient_evidence"},
+        "reason_codes": ["custody_gap"]
+      },
+      "forbidden_inference": "Anchoring must not imply a complete handling history.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-012",
+      "title": "Complete custody with unavailable anchoring",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/0/anchor/status",
+          "value": "unavailable"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {"custody_continuity": "pass", "temporal_anchoring": "insufficient_evidence"},
+        "reason_codes": ["anchor_unavailable"]
+      },
+      "forbidden_inference": "Custody must not imply independently established time.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-013",
+      "title": "Valid records with corrupted lifecycle-link digest",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/links/2/target/digest",
+          "value": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        }
+      ],
+      "recompute_integrity": false,
+      "expected": {
+        "overall_result": "correlation_failed",
+        "evaluations": {"component_integrity": "fail", "execution_binding": "fail"},
+        "reason_codes": ["link_integrity_failure", "record_digest_mismatch"]
+      },
+      "forbidden_inference": "Integrity of endpoint records must not validate a corrupted relationship between them.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-014",
+      "title": "Correlated records with unresolved external grounding",
+      "semantic_changes": [],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {"component_integrity": "pass", "consequence_binding": "pass", "grounding": "insufficient_evidence"},
+        "reason_codes": ["grounding_unresolved"]
+      },
+      "forbidden_inference": "Cryptographic integrity and lifecycle correlation must not be represented as proof of external truth.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-015",
+      "title": "Sender-side offer without counterparty acceptance",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/custody/status",
+          "value": "offered_not_accepted"
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/custody/result_ref/record_id",
+          "value": "urn:example:custody-offer:observation-1"
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/custody/result_ref/digest",
+          "value": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/custody/evidence_basis/0/record_id",
+          "value": "urn:example:custody-offer:observation-1"
+        },
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/custody/evidence_basis/0/digest",
+          "value": "sha256:cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {"custody_continuity": "fail"},
+        "reason_codes": ["custody_not_accepted"]
+      },
+      "forbidden_inference": "Sender-side creation or transmission of an offer must not be represented as counterparty acceptance.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-016",
+      "title": "Accepted custody evidence later unavailable",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/4/custody/status",
+          "value": "accepted_unavailable"
+        },
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/records/4/custody/evidence_basis/-",
+          "value": {
+            "record_id": "urn:example:custody-loss:observation-1",
+            "digest": "sha256:dededededededededededededededededededededededededededededededede"
+          }
+        },
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/records/4/custody/limitations",
+          "value": ["The previously accepted artifact is no longer retrievable."]
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {"custody_continuity": "insufficient_evidence"},
+        "reason_codes": ["custody_accepted_then_unavailable"]
+      },
+      "forbidden_inference": "Prior acceptance must not be rewritten as current availability or as never having been accepted.",
+      "test_scope": "semantic_scenario"
+    },
+    {
+      "id": "GALC-017",
+      "title": "Accepted custody claim without result reference",
+      "semantic_changes": [
+        {
+          "operation": "remove",
+          "path": "/base_lifecycle/records/4/custody/result_ref"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "schema_validation": "fail"
+      },
+      "forbidden_inference": "A producer-supplied accepted status must not establish custody continuity without a checkable result identity.",
+      "test_scope": "structural_input_negative"
+    },
+    {
+      "id": "GALC-018",
+      "title": "Duplicate evaluation of one property",
+      "semantic_changes": [
+        {
+          "operation": "add",
+          "path": "/base_lifecycle/evaluations/-",
+          "value": {
+            "property": "execution_binding",
+            "result": "fail",
+            "checked_at": "2026-09-17T12:00:07Z",
+            "verifier": {"id": "urn:example:verifier:2", "trust_domain": "review.example"},
+            "reason_codes": ["duplicate_property_evaluation"]
+          }
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "schema_validation": "fail"
+      },
+      "forbidden_inference": "A verifier must not select a preferred duplicate result or report the evaluation set as correlated.",
+      "test_scope": "output_envelope_negative"
+    },
+    {
+      "id": "GALC-019",
+      "title": "Anchored claim without a reference",
+      "test_scope": "structural_input_negative",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_lifecycle/records/0/anchor",
+          "value": {
+            "status": "anchored"
+          }
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "schema_validation": "fail"
+      },
+      "forbidden_inference": "An anchored label without a locator and immutable result reference is structurally invalid; it has no semantic oracle."
+    },
+    {
+      "id": "GALC-020",
+      "title": "Anchoring result cannot be retrieved",
+      "test_scope": "semantic_scenario",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_verification_context/anchoring_fixtures/0/resolution",
+          "value": "inaccessible"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {
+          "temporal_anchoring": "insufficient_evidence"
+        },
+        "reason_codes": ["anchor_unavailable"]
+      },
+      "forbidden_inference": "A locator and immutable result reference do not establish retrieval or verification. Unavailable anchoring evidence must not become pass."
+    },
+    {
+      "id": "GALC-021",
+      "title": "Inclusion verifies but time is operator asserted",
+      "test_scope": "semantic_scenario",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_verification_context/anchoring_fixtures/0/time_basis",
+          "value": "operator_asserted"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {
+          "temporal_anchoring": "insufficient_evidence"
+        },
+        "reason_codes": [
+          "anchor_time_unsubstantiated"
+        ]
+      },
+      "forbidden_inference": "Inclusion alone does not authenticate time. Operator-asserted time must not become temporal_anchoring pass."
+    },
+    {
+      "id": "GALC-022",
+      "title": "Referenced anchoring result fails integrity verification",
+      "test_scope": "semantic_scenario",
+      "semantic_changes": [
+        {
+          "operation": "replace",
+          "path": "/base_verification_context/anchoring_fixtures/0/result_integrity",
+          "value": "invalid"
+        }
+      ],
+      "recompute_integrity": true,
+      "expected": {
+        "overall_result": "correlated",
+        "evaluations": {
+          "temporal_anchoring": "fail"
+        },
+        "reason_codes": [
+          "anchor_result_invalid"
+        ]
+      },
+      "forbidden_inference": "A retrieved result with failed integrity is not valid anchoring evidence. Confirmed invalid evidence and unavailable evidence remain distinct."
+    }
+  ],
+  "base_verification_context": {
+    "artifact_role": "synthetic_verification_context",
+    "version": "1",
+    "anchoring_fixtures": [
+      {
+        "reference": "urn:example:anchor:proposal-1",
+        "result_ref": {
+          "record_id": "urn:example:anchor-result:1",
+          "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "resolution": "available",
+        "result_integrity": "valid",
+        "anchored_object": {
+          "kind": "record_payload",
+          "record_id": "urn:example:record:proposal-1",
+          "digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "digest_algorithm": "sha-256",
+          "schema_id": "urn:example:schema:proposal:1",
+          "canonicalization_id": "rfc8785-jcs"
+        },
+        "verifier": {
+          "id": "urn:example:anchor-verifier:1",
+          "trust_domain": "anchor-review.example"
+        },
+        "method": "urn:example:anchoring-test-double",
+        "method_version": "1",
+        "evidence_basis": [
+          {
+            "record_id": "urn:example:anchor-evidence:1",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "inclusion": "verified",
+        "time_basis": "independently_authenticated",
+        "history_basis": "verified_consistent",
+        "limitations": [
+          "Synthetic test-double declaration; not executed verification or real anchoring evidence."
+        ]
+      },
+      {
+        "reference": "urn:example:anchor:determination-1",
+        "result_ref": {
+          "record_id": "urn:example:anchor-result:2",
+          "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "resolution": "available",
+        "result_integrity": "valid",
+        "anchored_object": {
+          "kind": "record_payload",
+          "record_id": "urn:example:record:determination-1",
+          "digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+          "digest_algorithm": "sha-256",
+          "schema_id": "urn:example:schema:determination:1",
+          "canonicalization_id": "rfc8785-jcs"
+        },
+        "verifier": {
+          "id": "urn:example:anchor-verifier:1",
+          "trust_domain": "anchor-review.example"
+        },
+        "method": "urn:example:anchoring-test-double",
+        "method_version": "1",
+        "evidence_basis": [
+          {
+            "record_id": "urn:example:anchor-evidence:2",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "inclusion": "verified",
+        "time_basis": "independently_authenticated",
+        "history_basis": "verified_consistent",
+        "limitations": [
+          "Synthetic test-double declaration; not executed verification or real anchoring evidence."
+        ]
+      },
+      {
+        "reference": "urn:example:anchor:enforcement-1",
+        "result_ref": {
+          "record_id": "urn:example:anchor-result:3",
+          "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "resolution": "available",
+        "result_integrity": "valid",
+        "anchored_object": {
+          "kind": "record_payload",
+          "record_id": "urn:example:record:enforcement-1",
+          "digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+          "digest_algorithm": "sha-256",
+          "schema_id": "urn:example:schema:enforcement:1",
+          "canonicalization_id": "rfc8785-jcs"
+        },
+        "verifier": {
+          "id": "urn:example:anchor-verifier:1",
+          "trust_domain": "anchor-review.example"
+        },
+        "method": "urn:example:anchoring-test-double",
+        "method_version": "1",
+        "evidence_basis": [
+          {
+            "record_id": "urn:example:anchor-evidence:3",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "inclusion": "verified",
+        "time_basis": "independently_authenticated",
+        "history_basis": "verified_consistent",
+        "limitations": [
+          "Synthetic test-double declaration; not executed verification or real anchoring evidence."
+        ]
+      },
+      {
+        "reference": "urn:example:anchor:execution-1",
+        "result_ref": {
+          "record_id": "urn:example:anchor-result:4",
+          "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        "resolution": "available",
+        "result_integrity": "valid",
+        "anchored_object": {
+          "kind": "record_payload",
+          "record_id": "urn:example:record:execution-1",
+          "digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "digest_algorithm": "sha-256",
+          "schema_id": "urn:example:schema:execution:1",
+          "canonicalization_id": "rfc8785-jcs"
+        },
+        "verifier": {
+          "id": "urn:example:anchor-verifier:1",
+          "trust_domain": "anchor-review.example"
+        },
+        "method": "urn:example:anchoring-test-double",
+        "method_version": "1",
+        "evidence_basis": [
+          {
+            "record_id": "urn:example:anchor-evidence:4",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "inclusion": "verified",
+        "time_basis": "independently_authenticated",
+        "history_basis": "verified_consistent",
+        "limitations": [
+          "Synthetic test-double declaration; not executed verification or real anchoring evidence."
+        ]
+      },
+      {
+        "reference": "urn:example:anchor:observation-1",
+        "result_ref": {
+          "record_id": "urn:example:anchor-result:5",
+          "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        "resolution": "available",
+        "result_integrity": "valid",
+        "anchored_object": {
+          "kind": "record_payload",
+          "record_id": "urn:example:record:observation-1",
+          "digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "digest_algorithm": "sha-256",
+          "schema_id": "urn:example:schema:observation:1",
+          "canonicalization_id": "rfc8785-jcs"
+        },
+        "verifier": {
+          "id": "urn:example:anchor-verifier:1",
+          "trust_domain": "anchor-review.example"
+        },
+        "method": "urn:example:anchoring-test-double",
+        "method_version": "1",
+        "evidence_basis": [
+          {
+            "record_id": "urn:example:anchor-evidence:5",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "inclusion": "verified",
+        "time_basis": "independently_authenticated",
+        "history_basis": "verified_consistent",
+        "limitations": [
+          "Synthetic test-double declaration; not executed verification or real anchoring evidence."
+        ]
+      },
+      {
+        "reference": "urn:example:anchor:reconciliation-1",
+        "result_ref": {
+          "record_id": "urn:example:anchor-result:6",
+          "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+        },
+        "resolution": "available",
+        "result_integrity": "valid",
+        "anchored_object": {
+          "kind": "record_payload",
+          "record_id": "urn:example:record:reconciliation-1",
+          "digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "digest_algorithm": "sha-256",
+          "schema_id": "urn:example:schema:reconciliation:1",
+          "canonicalization_id": "rfc8785-jcs"
+        },
+        "verifier": {
+          "id": "urn:example:anchor-verifier:1",
+          "trust_domain": "anchor-review.example"
+        },
+        "method": "urn:example:anchoring-test-double",
+        "method_version": "1",
+        "evidence_basis": [
+          {
+            "record_id": "urn:example:anchor-evidence:6",
+            "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+          }
+        ],
+        "inclusion": "verified",
+        "time_basis": "independently_authenticated",
+        "history_basis": "verified_consistent",
+        "limitations": [
+          "Synthetic test-double declaration; not executed verification or real anchoring evidence."
+        ]
+      }
+    ]
+  }
+}
