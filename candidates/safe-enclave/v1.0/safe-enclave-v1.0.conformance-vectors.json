@@ -1,0 +1,77 @@
+{
+  "profile": "SAFE-ENCLAVE",
+  "version": "1.0",
+  "scenariosCount": 10,
+  "scenarios": [
+    {
+      "id": "SAFE-VEC-001",
+      "name": "valid_enclave_key_generation_and_hashing",
+      "category": "cryptography",
+      "expectedOutcome": "PASS",
+      "description": "Validates deterministic SHA-256 and P-256 enclave keypair generation"
+    },
+    {
+      "id": "SAFE-VEC-002",
+      "name": "confidential_finding_encryption_and_decryption",
+      "category": "ingestion",
+      "expectedOutcome": "PASS",
+      "description": "End-to-end client ECDH encryption and enclave in-RAM decryption"
+    },
+    {
+      "id": "SAFE-VEC-003",
+      "name": "replay_attack_duplicate_submission_rejection",
+      "category": "adversarial",
+      "expectedOutcome": "REJECT",
+      "expectedError": "Replay attack detected: submission has already been ingested into enclave"
+    },
+    {
+      "id": "SAFE-VEC-004",
+      "name": "expired_timestamp_freshness_rejection",
+      "category": "adversarial",
+      "expectedOutcome": "REJECT",
+      "expectedError": "Submission expired: timestamp is outside acceptable 24-hour enclave freshness window"
+    },
+    {
+      "id": "SAFE-VEC-005",
+      "name": "sybil_burst_rate_limiting_enforcement",
+      "category": "adversarial",
+      "expectedOutcome": "REJECT",
+      "expectedError": "Sybil burst rate limit exceeded: maximum 100 submissions per provider per cycle"
+    },
+    {
+      "id": "SAFE-VEC-006",
+      "name": "ciphertext_bit_flipping_auth_tag_rejection",
+      "category": "cryptography",
+      "expectedOutcome": "REJECT",
+      "expectedError": "Decryption or authentication failed: Unsupported state or unable to authenticate data"
+    },
+    {
+      "id": "SAFE-VEC-007",
+      "name": "ephemeral_ecdh_public_key_substitution_mitm_rejection",
+      "category": "cryptography",
+      "expectedOutcome": "REJECT",
+      "expectedError": "Decryption or authentication failed"
+    },
+    {
+      "id": "SAFE-VEC-008",
+      "name": "multi_cloud_distillation_campaign_correlation_nsa_advisory",
+      "category": "correlation",
+      "expectedOutcome": "PASS",
+      "description": "Correlates 5 independent cloud providers with sharded sub-threshold queries into a single CRITICAL campaign (225k queries, 0.99 score)"
+    },
+    {
+      "id": "SAFE-VEC-009",
+      "name": "scitt_merkle_digest_and_rtmr3_bulletin_tamper_detection",
+      "category": "attestation",
+      "expectedOutcome": "REJECT_ON_TAMPER",
+      "description": "Detects single-character modifications to emitted threat bulletin via 4-point verification audit"
+    },
+    {
+      "id": "SAFE-VEC-010",
+      "name": "zero_knowledge_privacy_and_pr18_pr27_receipt_conformance",
+      "category": "interoperability",
+      "expectedOutcome": "PASS",
+      "description": "Verifies 0 bytes of submitter PII or model weights escape in bulletin and asserts PR #18 / PR #27 receipt compliance"
+    }
+  ]
+}
