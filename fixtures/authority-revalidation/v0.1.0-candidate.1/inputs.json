@@ -1,0 +1,137 @@
+{
+  "fixture_id": "safe-authority-revalidation",
+  "version": "0.1.0-candidate.1",
+  "kind": "synthetic_candidate_inputs",
+  "attempt_timeout_seconds": 30,
+  "harness": "H",
+  "authority_source": {"id": "D", "controlled_by": "H", "admission": "synthetically_stipulated"},
+  "action": {"id": "A", "subject": "agent-A", "tool": "T", "operation": "write_report", "sink": "S", "report": "R"},
+  "report": {"id": "R", "encoding": "UTF-8", "text": "synthetic report\n"},
+  "permission_sets": {
+    "P0": ["write:S"],
+    "P1": ["write:S", "read:Q"],
+    "P2": ["write:S", "read:Q", "read:Z"]
+  },
+  "materiality_policy": {
+    "id": "M1", "version": "1", "authority": "D", "controlled_by": "H",
+    "material_predicate": "tool_permissions",
+    "non_material_predicate": "metrics_label",
+    "comparison": "selected_grant_baseline_to_release_baseline",
+    "equal_values": "unchanged",
+    "missing_required_evidence": "unresolved",
+    "other_changed_predicate": "invalid_run"
+  },
+  "required_evidence": ["authority_source", "grant_header", "grant_baseline_binding", "release_baseline", "materiality_policy", "revocation_observation"],
+  "runs": [
+    {
+      "id": "V1", "purpose": "non_material_change",
+      "available_evidence": ["authority_source", "grant_header", "grant_baseline_binding", "release_baseline", "materiality_policy", "revocation_observation"],
+      "baselines": [
+        {"id": "V1/B0", "tool_permissions": "P0", "metrics_label": "m0"},
+        {"id": "V1/B1", "tool_permissions": "P0", "metrics_label": "m1"}
+      ],
+      "grants": [
+        {"id": "V1/G0", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 0, "effective_tick": 0, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "V1/B0"}
+      ],
+      "schedule": [
+        {"tick": 0, "event": "activate_baseline", "baseline": "V1/B0"},
+        {"tick": 0, "event": "issue_grant", "grant": "V1/G0"},
+        {"tick": 10, "event": "activate_baseline", "baseline": "V1/B1"},
+        {"tick": 20, "event": "release_attempt", "attempt_id": "V1-A1", "selected_grant": "V1/G0"}
+      ]
+    },
+    {
+      "id": "V2", "purpose": "material_change_and_fresh_authorization",
+      "available_evidence": ["authority_source", "grant_header", "grant_baseline_binding", "release_baseline", "materiality_policy", "revocation_observation"],
+      "baselines": [
+        {"id": "V2/B0", "tool_permissions": "P0", "metrics_label": "m0"},
+        {"id": "V2/B1", "tool_permissions": "P1", "metrics_label": "m0"}
+      ],
+      "grants": [
+        {"id": "V2/G0", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 0, "effective_tick": 0, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "V2/B0"},
+        {"id": "V2/G1", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 30, "effective_tick": 30, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "V2/B1"}
+      ],
+      "schedule": [
+        {"tick": 0, "event": "activate_baseline", "baseline": "V2/B0"},
+        {"tick": 0, "event": "issue_grant", "grant": "V2/G0"},
+        {"tick": 10, "event": "activate_baseline", "baseline": "V2/B1"},
+        {"tick": 20, "event": "release_attempt", "attempt_id": "V2-A1", "selected_grant": "V2/G0"},
+        {"tick": 30, "event": "issue_grant", "grant": "V2/G1"},
+        {"tick": 40, "event": "release_attempt", "attempt_id": "V2-A2", "selected_grant": "V2/G1"}
+      ]
+    },
+    {
+      "id": "V3", "purpose": "second_change_after_reauthorization",
+      "available_evidence": ["authority_source", "grant_header", "grant_baseline_binding", "release_baseline", "materiality_policy", "revocation_observation"],
+      "baselines": [
+        {"id": "V3/B0", "tool_permissions": "P0", "metrics_label": "m0"},
+        {"id": "V3/B1", "tool_permissions": "P1", "metrics_label": "m0"},
+        {"id": "V3/B2", "tool_permissions": "P2", "metrics_label": "m0"}
+      ],
+      "grants": [
+        {"id": "V3/G0", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 0, "effective_tick": 0, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "V3/B0"},
+        {"id": "V3/G1", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 30, "effective_tick": 30, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "V3/B1"},
+        {"id": "V3/G2", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 50, "effective_tick": 50, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "V3/B2"}
+      ],
+      "schedule": [
+        {"tick": 0, "event": "activate_baseline", "baseline": "V3/B0"},
+        {"tick": 0, "event": "issue_grant", "grant": "V3/G0"},
+        {"tick": 10, "event": "activate_baseline", "baseline": "V3/B1"},
+        {"tick": 30, "event": "issue_grant", "grant": "V3/G1"},
+        {"tick": 39, "event": "activate_baseline", "baseline": "V3/B2"},
+        {"tick": 40, "event": "release_attempt", "attempt_id": "V3-A1", "selected_grant": "V3/G1"},
+        {"tick": 50, "event": "issue_grant", "grant": "V3/G2"},
+        {"tick": 60, "event": "release_attempt", "attempt_id": "V3-A2", "selected_grant": "V3/G2"}
+      ]
+    },
+    {
+      "id": "U1", "purpose": "missing_release_baseline_cold_start",
+      "available_evidence": ["authority_source", "grant_header", "grant_baseline_binding", "materiality_policy", "revocation_observation"],
+      "baselines": [
+        {"id": "U1/B0", "tool_permissions": "P0", "metrics_label": "m0"},
+        {"id": "U1/B1", "tool_permissions": "P0", "metrics_label": "m1"}
+      ],
+      "grants": [
+        {"id": "U1/G0", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 0, "effective_tick": 0, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "U1/B0"}
+      ],
+      "schedule": [
+        {"tick": 0, "event": "activate_baseline", "baseline": "U1/B0"},
+        {"tick": 0, "event": "issue_grant", "grant": "U1/G0"},
+        {"tick": 10, "event": "activate_baseline", "baseline": "U1/B1"},
+        {"tick": 20, "event": "release_attempt", "attempt_id": "U1-A1", "selected_grant": "U1/G0"}
+      ]
+    },
+    {
+      "id": "U2", "purpose": "missing_materiality_policy_cold_start",
+      "available_evidence": ["authority_source", "grant_header", "grant_baseline_binding", "release_baseline", "revocation_observation"],
+      "baselines": [
+        {"id": "U2/B0", "tool_permissions": "P0", "metrics_label": "m0"},
+        {"id": "U2/B1", "tool_permissions": "P1", "metrics_label": "m0"}
+      ],
+      "grants": [
+        {"id": "U2/G0", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 0, "effective_tick": 0, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "U2/B0"}
+      ],
+      "schedule": [
+        {"tick": 0, "event": "activate_baseline", "baseline": "U2/B0"},
+        {"tick": 0, "event": "issue_grant", "grant": "U2/G0"},
+        {"tick": 10, "event": "activate_baseline", "baseline": "U2/B1"},
+        {"tick": 20, "event": "release_attempt", "attempt_id": "U2-A1", "selected_grant": "U2/G0"}
+      ]
+    },
+    {
+      "id": "U3", "purpose": "missing_grant_baseline_binding_cold_start",
+      "available_evidence": ["authority_source", "grant_header", "release_baseline", "materiality_policy", "revocation_observation"],
+      "baselines": [
+        {"id": "U3/B2", "tool_permissions": "P2", "metrics_label": "m0"}
+      ],
+      "grants": [
+        {"id": "U3/G2", "issuer": "D", "subject": "agent-A", "action": "A", "issued_tick": 50, "effective_tick": 50, "valid_from": 0, "expires_at": 100, "revoked": false, "evaluated_baseline": "U3/B2"}
+      ],
+      "schedule": [
+        {"tick": 0, "event": "activate_baseline", "baseline": "U3/B2"},
+        {"tick": 50, "event": "issue_grant", "grant": "U3/G2"},
+        {"tick": 60, "event": "release_attempt", "attempt_id": "U3-A1", "selected_grant": "U3/G2"}
+      ]
+    }
+  ]
+}
