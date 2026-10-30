@@ -40,8 +40,11 @@ As a condition of membership, members agree to report an incident when they beco
 * Causes third-party impact by escaping or bypassing a sandbox, network, identity, policy or tool boundary.
 * Accesses third party confidential information, for example, by accessing data, or redistributing for others to access, without consent of the owner. 
 * Continues to probe, access, exploit, or modify a production target after the operator knows or reasonably suspects that the activity is unauthorized or outside the approved scope.
+* Contributes, through AI perception, interpretation, planning, action generation, or failure of an AI-related safeguard, to physical harm or a physical near miss in an embodied system.
 
 Intent does not determine whether an event is reportable. Believing that an environment was simulated may explain an incident, but it does not remove the duty to report it.  Minimizing transparency of events slows learning.
+
+For embodied AI, a physical near miss is an observed event with credible potential for physical harm in which AI behavior or an AI-related safeguard contributed, or is reasonably suspected of contributing, but no such harm occurred. Reports should explain the suspected AI contribution and what prevented harm. A protective intervention alone does not establish a near miss.
 
 # Notification Timelines
 
@@ -71,6 +74,8 @@ Members must preserve and provide affected organizations with the evidence neede
 * Reproduction testing and remediation evidence
 
 Members must also provide a preliminary control-failure analysis within 30 days and report near misses, not only events that produce confirmed harm.
+
+For embodied-AI events, relevant evidence should connect the inputs received by the AI, its generated plans or action commands, safeguard decisions, and actual physical execution. Reports should identify the basis for judging the behavior hazardous, distinguish observed outcomes from predicted consequences, and record timing uncertainty and missing evidence that limit causal assessment.
 
 # Review Framework
 
