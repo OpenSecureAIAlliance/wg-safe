@@ -65,6 +65,7 @@ Members must preserve and provide affected organizations with the evidence neede
 * Agent and workload identities
 * Permissions and credentials available during the run
 * Human approval and intervention events
+* Workflow-composition records needed to reconstruct cumulative limits, delegation lineage, revocation and the transition from proposed actions to committed external effects
 * Files and external artifacts created or modified
 * Detection, containment and recovery events
 * A complete incident timeline
@@ -86,8 +87,11 @@ Each incident should be examined across the complete operating stack:
 | **Monitoring** | Could operators detect and interrupt unexpected behavior in real time? |
 | **Human operations** | Were responsibilities, escalation paths and kill procedures clear? |
 | **Supply chain** | Did a cloud, evaluation, data or tooling partner invalidate assumed controls? |
+| **Workflow composition** | Did individually permitted actions remain within cumulative workflow, delegation, revocation and cross-boundary constraints, and can the aggregate trajectory be reconstructed? |
 
 The affected organization may correct factual errors but should not have veto power over learnings or recommendations.
+
+The companion [Workflow-Composition Evidence Profile](./rfc-composition-evidence-profile.md) describes a format-neutral minimum record and conformance vectors for this review layer.
 
 # Disclosure Model
 
