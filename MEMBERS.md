@@ -17,6 +17,7 @@ To join, open a PR adding yourself to the Contributors table below, or introduce
 |---|---|---|---|
 | Sean McDermott | UnGovr | [@smcd](https://github.com/smcd) | 2026-09-22 |
 | Prem Methuku | Independent | [@Premmethuku75](https://github.com/Premmethuku75) | 2026-09-12 |
+| Igor | Argus Agent Test Lab | [@igor-vii](https://github.com/igor-vii) | 2026-11-22 |
 
 
 ## Emeritus
