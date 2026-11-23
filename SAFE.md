@@ -106,9 +106,37 @@ The deadlines run from when the member becomes aware of facts giving reasonable 
 
 SAFE reporting complements applicable legal, contractual and coordinated-disclosure duties; it does not replace or extend their deadlines. Reuse relevant existing reports where lawful, adding the SAFE-specific information that is missing. Record affected jurisdictions and any applicable external reporting duty, responsible party, deadline and filing status. Document any necessary restriction on public disclosure, its reason, decision owner and next review date. Maintain prompt, lawful notice and actionable guidance to affected parties. Confidentiality labels (i.e., TLP designations) do not override public-records laws or other lawful disclosure duties.
 
-SAFE can accept reports from affected people and organizations whether or not they are existing members. The working group will acknowledge receipt and route them promptly for assessment. Members should maintain a monitored incident contact and use established security contacts or an appropriate response coordinator when a recipient cannot be reached.
+SAFE can accept reports from affected people and organizations whether or not they are existing members. The working group will acknowledge receipt and route them promptly for intake assessment. Members should maintain a monitored incident contact and use established security contacts or an appropriate response coordinator when a recipient cannot be reached.
 
 SAFE submissions should use a versioned machine-readable minimum record where available; otherwise provide equivalent information in a structured narrative. Include a reporting contact, affected systems and observed versions, incident class, near-miss status, awareness and response timeline, current containment, evidence availability and next update. Identify affected people or groups, impact severity, scale, duration, reversibility and known disproportionate effects.
+
+---
+
+## Intake Assessment
+
+SAFE assesses each submission before it enters review, so that every report receives a recorded decision and a stated reason. The same assessment applies to member and nonmember submissions. It is kept with the report under the report's confidentiality label.
+
+The intake assessment records:
+
+- **What happened:** the observed behavior, the affected systems and when the behavior was observed, with the source of each timestamp.
+- **Evidence:** the records that tie the behavior to a specific AI system, each identified as a self-reported claim or an external observation. When the reporter does not hold the system's records, record which party holds them. An affected person is not expected to hold the operator's logs.
+- **Approved scope:** the approved scope in force at the time, who granted it and where it is recorded, or that it is not yet known.
+- **Reproducibility:** whether the behavior can be repeated and under what conditions, or why it cannot. Reproducibility informs the review; it is not a condition of acceptance.
+- **Decision:** one of the outcomes below, with the reason, the decision owner and the date.
+
+| Outcome | Applies when |
+|---|---|
+| Accept as an AI incident | The submission describes an AI incident as defined above, and the available evidence supports it. |
+| Accept as a near-miss AI incident | The submission describes a near-miss AI incident as defined above, and the available evidence supports it. |
+| Record for aggregation | The event is a routine blocked attempt without a material control failure or credible consequential risk. |
+| Request more evidence | The submission may be in scope, but the available evidence does not yet support a decision. Record what is missing, who holds it and when the decision will be revisited. |
+| Close as out of scope | The event is neither an AI incident nor a near-miss AI incident as defined above, for example when the reporter's own configuration explains the behavior and no covered outcome occurred. |
+
+Approved scope often decides between these outcomes. Without a record of the scope in force, an AI system that exceeded its authorization cannot be told apart from one that did what it was configured to do. Intake records what is known about the scope; the review determines whether it was exceeded.
+
+Missing evidence alone does not close a submission, and intent or a belief that the environment was simulated does not decide the outcome. A closed submission is reopened when new evidence brings it within scope. SAFE tells the reporter the outcome and the reason, subject to confidentiality constraints. Conflict-of-interest disclosure and recusal apply to intake decisions as they do to reviews, and intake decisions may be appealed in the same way.
+
+The intake assessment decides whether SAFE reviews a submission. It does not change a member's reporting or notification duties, which run from awareness as set out above.
 
 ---
 
